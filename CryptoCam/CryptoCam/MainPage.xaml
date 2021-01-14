@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CryptoCam.MainPage"
+             xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls;assembly=CryptoCam"
+             >
+    <RelativeLayout>
+        <CustomControls:CameraPreview Camera="Rear"
+                             VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand"
+                                      RelativeLayout.HeightConstraint = 
+                                      "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Height,
+                                      Factor=1}"
+                             RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=1}"
+                                
+                             RelativeLayout.XConstraint="0"
+                             RelativeLayout.YConstraint="0"
+                             BackgroundColor="Green"
+                             Margin="0" >
+            
+        </CustomControls:CameraPreview>
+
+        <Frame BackgroundColor="Black" 
+           Opacity="0.85"
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
+                  RelativeLayout.XConstraint="0"
+                             RelativeLayout.YConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="0"
+          />
+        <Frame BackgroundColor="Black" 
+           Opacity="0.85"
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.4}"               
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.6}"
+                    RelativeLayout.XConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="0"
+                   
+          />
+
+
+        <Frame CornerRadius="30"   BackgroundColor="Black" Opacity="0.7"
+               BorderColor="Gray" 
+                 Margin="15"
+                     Padding="15"
+               HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+               RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=1}"
+               RelativeLayout.YConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.1}"
+               >
+            <StackLayout Orientation="Horizontal"                  
+                   
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                      RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=1}"
+                     >
+                <Picker  x:Name="fiatCurrencyPicker" 
+                     Title="F" SelectedItem="{Binding SelectedFiatCurrency}"
+                           RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.45}"
+                    TitleColor="White"
+                     TextColor="White"
+                     FontSize="Large"
+                      HorizontalTextAlignment="Center"
+                    ItemsSource="{Binding FiatCurrencies}"
+                    ItemDisplayBinding="{Binding Description}"
+                     HorizontalOptions="FillAndExpand"/>
+                <Label FontSize="Large" TextColor="Red" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                       RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.1}"
+                       >TO</Label>
+                <Picker  x:Name="cryptoCurrencyPicker" TitleColor="White" TextColor="White" FontSize="Large" HorizontalOptions="FillAndExpand"
+                     Title="C"  
+                        HorizontalTextAlignment="Center"
+                     SelectedItem="{Binding SelectedCryptoCurrency}"
+                      ItemsSource="{Binding CryptoCurrencies}"
+                    ItemDisplayBinding="{Binding Description}"
+                         RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.45}"
+                />
+
+            </StackLayout>
+        </Frame>
+
+
+        
+        <!--<Rectangle Fill="Transparent" 
+           Stroke="Red"
+           StrokeThickness="4"
+           StrokeDashArray="1,1" 
+           StrokeDashOffset="6"
+           WidthRequest="250"
+           HeightRequest="100"
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.35}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                 
+          />-->
+
+        <Button            
+            Command="{Binding ScanCommand}"
+              BackgroundColor="White"
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.7}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.335}"
+               HorizontalOptions="FillAndExpand"
+            CornerRadius="360"
+               RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.33}"
+                RelativeLayout.HeightConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.33}"
+            Opacity="0.75"
+            BorderColor="Gold"
+            BorderWidth="6"
+               Text="$" 
+            FontSize="50"
+           >
+
+        </Button>
+        <Label  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
+                FontSize="4"
+                TextColor="White"
+                Opacity="0.5"
+                Text="crypto vidi vici"
+                HorizontalTextAlignment="Center"
+            />
+        <!--<Frame CornerRadius="25"   BackgroundColor="White"
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
+               HorizontalOptions="FillAndExpand"
+               RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=1}"
+                RelativeLayout.HeightConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Height,
+                                      Factor=0.5}"
+               >
+            --><!--<StackLayout>
+
+
+
+
+                <Label Text="{Binding Result}"
+               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
+               TextColor="White" />
+
+
+                <Button
+            Command="{Binding ScanCommand}"
+             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
+               Text="SCAN" >
+
+                </Button>
+            </StackLayout>--><!--
+        </Frame>-->
+
+    </RelativeLayout>
+    
+</ContentPage>
