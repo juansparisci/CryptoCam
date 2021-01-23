@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CryptoCam.MainPage"
+              xmlns:local="clr-namespace:CryptoCam;assembly=CryptoCam"
              xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls;assembly=CryptoCam"
              >
     <RelativeLayout>
@@ -24,16 +25,27 @@
             
         </CustomControls:CameraPreview>
 
-        <Frame BackgroundColor="Black" 
+        <Frame  BackgroundColor="Black" 
            Opacity="0.85"
                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
+                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
                   RelativeLayout.XConstraint="0"
                              RelativeLayout.YConstraint="0"
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
                    Margin="0"
           />
+        <Rectangle x:Name="rectangleCameraFocus"
+            BackgroundColor="White" 
+           Opacity="0.25"
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"
+                    RelativeLayout.XConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="0"
+            />
         <Frame BackgroundColor="Black" 
            Opacity="0.85"
                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
@@ -46,7 +58,20 @@
                    
           />
 
-
+        <!--<Image Source="{Binding LogoSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+               HeightRequest="75"
+               Margin="0"               
+               />-->
+        <Label Text="coinvert"
+            HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+               FontSize="20"
+               TextColor="Gold"
+               HorizontalTextAlignment="Center"
+               FontFamily="Arial"
+               Margin="20"
+            />
         <Frame CornerRadius="30"   BackgroundColor="Black" Opacity="0.7"
                BorderColor="Gray" 
                  Margin="15"
@@ -60,7 +85,7 @@
                RelativeLayout.YConstraint=
                              "{ConstraintExpression Type=RelativeToParent,
                                       Property=Width,
-                                      Factor=0.1}"
+                                      Factor=0.10}"
                >
             <StackLayout Orientation="Horizontal"                  
                    
@@ -142,12 +167,14 @@
            >
 
         </Button>
-        <Label  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
-                FontSize="4"
+        <Label  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.98}"
+                FontSize="10"
                 TextColor="White"
-                Opacity="0.5"
-                Text="crypto vidi vici"
+                Opacity="0.05"
+                Text="CRYPTO VIDI VICI"
                 HorizontalTextAlignment="Center"
+                HorizontalOptions="FillAndExpand"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
             />
         <!--<Frame CornerRadius="25"   BackgroundColor="White"
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.95}"
