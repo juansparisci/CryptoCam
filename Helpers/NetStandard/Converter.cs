@@ -8,7 +8,7 @@ namespace Helpers.NetStandard
 {
     public class Converter
     {
-        public static Bitmap ByteToImage(byte[] byteArray)
+     /*   public static Bitmap ByteToImage(byte[] byteArray)
         {
             using (MemoryStream mStream = new MemoryStream())
             {
@@ -27,5 +27,6 @@ namespace Helpers.NetStandard
                 return stream.ToArray();
             }
         }
+     */
     }
 }

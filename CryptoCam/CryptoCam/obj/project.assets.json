@@ -138,6 +138,9 @@
       "Helpers/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "SkiaSharp": "2.80.2"
+        },
         "compile": {
           "bin/placeholder/Helpers.dll": {}
         },

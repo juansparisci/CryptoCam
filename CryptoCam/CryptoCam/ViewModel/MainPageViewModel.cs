@@ -21,18 +21,20 @@ namespace CryptoCam.ViewModel
     public class MainPageViewModel : INotifyPropertyChanged
     {
 
-        private List<FiatCurrency> fiatCurrencies;
-        private List<CryptoCurrency> cryptoCurrencies;
-        private FiatCurrency selectedFiatCurrency;
-        private CryptoCurrency selectedCryptoCurrency;
-        private string result;
+        private List<FiatCurrency> _FiatCurrencies;
+        private List<CryptoCurrency> _CryptoCurrencies;
+        private FiatCurrency _SelectedFiatCurrency;
+        private CryptoCurrency _SelectedCryptoCurrency;
+        private ImageSource _FocusImgSource;
+        private string _Result;
+
 
         public List<FiatCurrency> FiatCurrencies
         {
-            get => fiatCurrencies;
+            get => _FiatCurrencies;
             set
             {
-                fiatCurrencies = value;
+                _FiatCurrencies = value;
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("FiatCurrency"));
@@ -42,9 +44,9 @@ namespace CryptoCam.ViewModel
         }
         public List<CryptoCurrency> CryptoCurrencies
         {
-            get => cryptoCurrencies;
+            get => _CryptoCurrencies;
             set {
-                cryptoCurrencies = value;
+                _CryptoCurrencies = value;
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CryptoCurrencies"));
@@ -52,22 +54,24 @@ namespace CryptoCam.ViewModel
             }
         }
 
-        public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency;
+        public FiatCurrency SelectedFiatCurrency { get => _SelectedFiatCurrency;
             set {
-                selectedFiatCurrency = value;
+                _SelectedFiatCurrency = value;
                 //Check and update exchange rate table 
                 Result = "You have selected " + value.Description;
             } }
-        public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency;
+        public CryptoCurrency SelectedCryptoCurrency { get => _SelectedCryptoCurrency;
             set {
-                selectedCryptoCurrency = value;
+                _SelectedCryptoCurrency = value;
                 // check and update exchange rates table
                 Result = "You have selected " + value.Description;
             } }
      //   private ConstraintExpression topFrameHeightConstraintExpression;
        //  public ConstraintExpression TopFrameHeightConstraintExpresion { get { return topFrameHeightConstraintExpression; } set { topFrameHeightConstraintExpression = value; OnPropertyChanged(); } }
-        public string Result { get => result; set { result = value; OnPropertyChanged(); } }
-       // public ImageSource LogoSource { get => ImageSource.FromResource("CryptoCam.Resources.logo_size_invert.jpg"); }
+        public string Result { get => _Result; set { _Result = value; OnPropertyChanged(); } }
+        public ImageSource FocusImgSource { get => _FocusImgSource; set { _FocusImgSource = value; OnPropertyChanged(); } }
+
+        // public ImageSource LogoSource { get => ImageSource.FromResource("CryptoCam.Resources.logo_size_invert.jpg"); }
 
         public MainPageViewModel()
         {
@@ -79,35 +83,16 @@ namespace CryptoCam.ViewModel
         private void scan()
         {
 
-            Result = "ScanCommand Pressed";
             var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
             var mainPage = ((MainPage)Application.Current.MainPage);
-
-            Xamarin.Forms.Shapes.Rectangle rect = mainPage.RectangleCameraFocus;
-            SKRect destRect = new SKRect(0, (float)rect.Y, (float)rect.Width, (float)(rect.Y + rect.Height));            
-            SKRect sourceRect = new SKRect(0,0,(float)mainPage.Width,(float)mainPage.Height);
-
-            //var y1 = rect.Y;
-            //var y2 = y1 + rect.Height;
-            //var x1 = 0;
-            //var x2 = rect.Width;
-
-            using (var skCanvas = new SKCanvas(SKBitmap.FromImage(SKImage.FromEncodedData(imgBytes))))
-            {
-                var surface = SKSurface.CreateNull((int)sourceRect.Width, (int)sourceRect.Height);
-                surface.Canvas.DrawBitmap(SKBitmap.FromImage(SKImage.FromEncodedData(imgBytes)),sourceRect,destRect);
-                using (var image = surface.Snapshot())
-                using (var data = image.Encode(SKEncodedImageFormat.Png, 80))
-                using (var stream = File.OpenWrite(Path.Combine("Resources", "1.png")))
-                {
-                    // save the data to a stream
-                    data.SaveTo(stream);
-                }
-            }
             
-
-
-            // var r = WebServices.OCR_API.GetTextFromImage(imgBytes);
+            Xamarin.Forms.Shapes.Rectangle rect = mainPage.RectangleCameraFocus;
+            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0,(int)rect.Y,(int)rect.Width,(int)rect.Height);
+            System.Drawing.Rectangle sourceRect = new System.Drawing.Rectangle(0,0,(int)mainPage.Width,(int)mainPage.Height);
+            
+            var imgCrpr = new Helpers.NetStandard.ImageCropper(imgBytes,sourceRect,destRect,Helpers.NetStandard.ImageCropper.Orientation.Portrait);
+            FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
+            imgCrpr = null;
 
         }
 
@@ -122,8 +107,8 @@ namespace CryptoCam.ViewModel
         private void loadCurrencies()
         {
             var currencies = OCR_API.GetCurrencies();
-            this.fiatCurrencies = currencies.Item1;
-            this.cryptoCurrencies = currencies.Item2;
+            this._FiatCurrencies = currencies.Item1;
+            this._CryptoCurrencies = currencies.Item2;
         }
 
        
