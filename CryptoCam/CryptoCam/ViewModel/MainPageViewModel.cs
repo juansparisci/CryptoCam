@@ -26,10 +26,10 @@ namespace CryptoCam.ViewModel
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
         private string result;
-        
-        public List<FiatCurrency> FiatCurrencies 
+
+        public List<FiatCurrency> FiatCurrencies
         {
-            get => fiatCurrencies; 
+            get => fiatCurrencies;
             set
             {
                 fiatCurrencies = value;
@@ -40,31 +40,34 @@ namespace CryptoCam.ViewModel
             }
 
         }
-        public List<CryptoCurrency> CryptoCurrencies 
+        public List<CryptoCurrency> CryptoCurrencies
         {
-                get => cryptoCurrencies; 
-                set{
-                cryptoCurrencies = value; 
+            get => cryptoCurrencies;
+            set {
+                cryptoCurrencies = value;
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CryptoCurrencies"));
                 }
-            } 
+            }
         }
 
-        public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency; 
-            set { 
+        public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency;
+            set {
                 selectedFiatCurrency = value;
                 //Check and update exchange rate table 
-                Result = "You have selected "+value.Description;
+                Result = "You have selected " + value.Description;
             } }
-        public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency; 
-            set { 
+        public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency;
+            set {
                 selectedCryptoCurrency = value;
                 // check and update exchange rates table
                 Result = "You have selected " + value.Description;
             } }
+     //   private ConstraintExpression topFrameHeightConstraintExpression;
+       //  public ConstraintExpression TopFrameHeightConstraintExpresion { get { return topFrameHeightConstraintExpression; } set { topFrameHeightConstraintExpression = value; OnPropertyChanged(); } }
         public string Result { get => result; set { result = value; OnPropertyChanged(); } }
+       // public ImageSource LogoSource { get => ImageSource.FromResource("CryptoCam.Resources.logo_size_invert.jpg"); }
 
         public MainPageViewModel()
         {
@@ -75,12 +78,36 @@ namespace CryptoCam.ViewModel
          
         private void scan()
         {
+
             Result = "ScanCommand Pressed";
             var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
+            var mainPage = ((MainPage)Application.Current.MainPage);
 
+            Xamarin.Forms.Shapes.Rectangle rect = mainPage.RectangleCameraFocus;
+            SKRect destRect = new SKRect(0, (float)rect.Y, (float)rect.Width, (float)(rect.Y + rect.Height));            
+            SKRect sourceRect = new SKRect(0,0,(float)mainPage.Width,(float)mainPage.Height);
+
+            //var y1 = rect.Y;
+            //var y2 = y1 + rect.Height;
+            //var x1 = 0;
+            //var x2 = rect.Width;
+
+            using (var skCanvas = new SKCanvas(SKBitmap.FromImage(SKImage.FromEncodedData(imgBytes))))
+            {
+                var surface = SKSurface.CreateNull((int)sourceRect.Width, (int)sourceRect.Height);
+                surface.Canvas.DrawBitmap(SKBitmap.FromImage(SKImage.FromEncodedData(imgBytes)),sourceRect,destRect);
+                using (var image = surface.Snapshot())
+                using (var data = image.Encode(SKEncodedImageFormat.Png, 80))
+                using (var stream = File.OpenWrite(Path.Combine("Resources", "1.png")))
+                {
+                    // save the data to a stream
+                    data.SaveTo(stream);
+                }
+            }
             
 
-            var r = WebServices.OCR_API.GetTextFromImage(imgBytes);
+
+            // var r = WebServices.OCR_API.GetTextFromImage(imgBytes);
 
         }
 

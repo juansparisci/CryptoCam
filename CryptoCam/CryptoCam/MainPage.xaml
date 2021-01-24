@@ -45,7 +45,7 @@
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
                    Margin="0"
-            />
+            />        
         <Frame BackgroundColor="Black" 
            Opacity="0.85"
                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"

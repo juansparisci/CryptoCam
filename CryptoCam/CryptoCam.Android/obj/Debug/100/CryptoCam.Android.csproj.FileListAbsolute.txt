@@ -1,5 +1,3 @@
-C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\Resources\download.jfif
-C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\Resources\price1.jpg
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\CryptoCam.Android.dll
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\CryptoCam.Android.pdb
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\com.companyname.cryptocam.apk
@@ -587,3 +585,5 @@ C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\obj\Debug\100\
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\obj\Debug\100\stamp\_GenerateJavaStubs.stamp
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\obj\Debug\100\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\obj\Debug\100\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\Resources\logo.png
+C:\Users\juan_\source\repos\CryptoCam\CryptoCam\CryptoCam.Android\bin\Debug\Resources\logo_size_invert.jpg

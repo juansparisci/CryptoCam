@@ -24,7 +24,6 @@ C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\bin\Debug\net5.0\Swashbuck
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\bin\Debug\net5.0\Tesseract.dll
-C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\obj\Debug\net5.0\CryptoCamWebAPI.csprojAssemblyReference.cache
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\obj\Debug\net5.0\CryptoCamWebAPI.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\obj\Debug\net5.0\CryptoCamWebAPI.AssemblyInfoInputs.cache
 C:\Users\juan_\source\repos\CryptoCam\CryptoCamWebAPI\obj\Debug\net5.0\CryptoCamWebAPI.AssemblyInfo.cs

@@ -21,7 +21,7 @@ namespace CryptoCam.Droid.Services
 
             using (var stream = new System.IO.MemoryStream())
             {
-                bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Png,0, stream);
+                bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Png,100, stream);
                 bitmapData = stream.ToArray();
             }
 

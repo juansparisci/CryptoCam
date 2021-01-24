@@ -11,6 +11,7 @@ namespace CryptoCam
 {
     public partial class MainPage : ContentPage
     {
+        public Xamarin.Forms.Shapes.Rectangle RectangleCameraFocus { get => rectangleCameraFocus; }
         
         public MainPage()
         {

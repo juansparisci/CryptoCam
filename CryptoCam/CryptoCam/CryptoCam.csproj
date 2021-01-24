@@ -12,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\download.jfif" />
-    <None Remove="Resources\price1.jpg" />
+    <None Remove="Resources\logo.png" />
+    <None Remove="Resources\logo_size_invert.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\download.jfif">
+    <EmbeddedResource Include="Resources\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\price1.jpg">
+    <EmbeddedResource Include="Resources\logo_size_invert.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -34,5 +34,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Helpers\Helpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>
