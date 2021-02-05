@@ -45,7 +45,7 @@
                    Margin="0"
             />
         
-        <!--<Image Source="{Binding FocusImgSource}"
+        <Image Source="{Binding FocusImgSource}"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"
@@ -54,7 +54,7 @@
                    VerticalOptions="FillAndExpand"
                    Margin="0"
                BackgroundColor="Transparent"
-               />-->
+               />
         
         <Frame BackgroundColor="Black" 
            Opacity="0.85"

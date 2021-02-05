@@ -4,7 +4,7 @@
              x:Class="CryptoCam.ResultConversionPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="{Binding Total}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Image Source="{Binding FocusImgSource}"
@@ -15,10 +15,19 @@
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
                    Margin="0"
-               BackgroundColor="Transparent"
+               BackgroundColor="Blue"
                />
             
             <Button Command="{Binding CloseCommand}" Text="X"  />
+
+            <!--<ActivityIndicator 
+                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"               
+                 RelativeLayout.YConstraint="0"
+                    RelativeLayout.XConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                Color="Orange" IsRunning="{Binding Loading}"  />-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoCamWebAPI", "CryptoCamWebAPI\CryptoCamWebAPI.csproj", "{2F2D7F0E-EA8D-40AA-9D05-2BA1D763F193}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpers", "Helpers\Helpers.csproj", "{0C22AA8E-678B-4DF5-B8E6-AFF3F653D206}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F2D7F0E-EA8D-40AA-9D05-2BA1D763F193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F2D7F0E-EA8D-40AA-9D05-2BA1D763F193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F2D7F0E-EA8D-40AA-9D05-2BA1D763F193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F2D7F0E-EA8D-40AA-9D05-2BA1D763F193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C22AA8E-678B-4DF5-B8E6-AFF3F653D206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C22AA8E-678B-4DF5-B8E6-AFF3F653D206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C22AA8E-678B-4DF5-B8E6-AFF3F653D206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C22AA8E-678B-4DF5-B8E6-AFF3F653D206}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0FF3E09-EE36-44A4-8693-847BA79F942A}
+	EndGlobalSection
+EndGlobal

@@ -17,17 +17,14 @@ namespace CryptoCam.WebServices
 #if DEBUG
         private static HttpClientHandler insecureHandler = DependencyService.Get<DependencyServices.IGetHttpClientHandler>().GetInsecureHandler();
         private static HttpClient client = new HttpClient(insecureHandler);
-
-
 #else
                     private static    HttpClient client = new HttpClient();
 #endif
         private static string baseAddress = Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:59865";
 
 
-        public static async Task<string> GetTextFromImage(byte[] img)
+        public static string GetConversion(byte[] img)
         {
-
             string ocrUri = $"{baseAddress}/api/CryptoConverter/";
 
             var content = new MultipartFormDataContent();
@@ -35,11 +32,19 @@ namespace CryptoCam.WebServices
             content.Add(imageContent, "Image", "imgName.imgext");
             content.Add(new StringContent("eng"), "DestinationLanguage");
 
-            var response = await client.PostAsync(ocrUri, content);
-
-            return "";
+            var taskPost =  client.PostAsync(ocrUri, content);
+            Task.WaitAll(taskPost);
+            var taskReadString = taskPost.Result.Content.ReadAsStringAsync();
+            Task.WaitAll(taskReadString);
+            var r = taskReadString.Result; //ReadAsString(taskPost).Result;
+            
+            return r;
         }
-
+        private static async Task<string> ReadAsString(Task<HttpResponseMessage> taskPost)
+        {
+            
+            return await taskPost.Result.Content.ReadAsStringAsync();
+        }
         public static Tuple<List<FiatCurrency>, List<CryptoCurrency>> GetCurrencies()
         {
             //Mock loading the currencies

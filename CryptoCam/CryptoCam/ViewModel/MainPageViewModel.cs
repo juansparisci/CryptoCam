@@ -70,8 +70,8 @@ namespace CryptoCam.ViewModel
         public MainPageViewModel()
         {
             this.loadCurrencies();
-            ScanCommand = new Command(async () => 
-            { 
+            ScanCommand =  new Command(async () => 
+            {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
             }, () => { return true; });
 
@@ -86,6 +86,7 @@ namespace CryptoCam.ViewModel
          
         private Stream scan()
         {
+            Stream ret = new MemoryStream();
             
             var mainPage = ((MainPage)Application.Current.MainPage);
 
@@ -102,17 +103,19 @@ namespace CryptoCam.ViewModel
             System.Drawing.Rectangle sourceRect = new System.Drawing.Rectangle(0,0,(int)mainPage.Width,(int)mainPage.Height);
 
             //crop the full size picture from the camera to the focused rectangle
-            using (var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait))
-            {
-                return imgCrpr.CroppedImageStream;
-            }
-
+            //using (var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait))
+            //{
+            //     imgCrpr.CroppedImageStream.CopyTo(ret);
+            //}
+            var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait);
+           // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
+            return imgCrpr.CroppedImageStream;
 
 
             //await Application.Current.MainPage.Navigation.PushAsync(new ResultConversionPage());
 
             //Make the instance of the cropped image to null to get more free memory 
-           // imgCrpr = null;
+            // imgCrpr = null;
         }
 
         public ICommand ScanCommand { protected set; get; }
