@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Helpers.NetStandard
 {
-    public class ImageCropper
+    public class ImageCropper : IDisposable
     {
         private SKBitmap _ImgBitmap;
         private SKRectI _DestRect;
@@ -53,6 +53,10 @@ namespace Helpers.NetStandard
             this._DestRect.Bottom = (int)(this._DestRect.Bottom * proportion);
             this._DestRect.Left = (int)(this._DestRect.Left * proportion);
             this._DestRect.Right = (int)(this._DestRect.Right * proportion);
+        }
+
+        public void Dispose()
+        {           
         }
 
         public enum Orientation

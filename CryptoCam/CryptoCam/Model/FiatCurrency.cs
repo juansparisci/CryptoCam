@@ -6,8 +6,8 @@ namespace CryptoCam.Model
 {
     public class FiatCurrency
     {
-        private string _Description;
-        public string Description { get => _Description; set => _Description = value; }
+        private string description;
+        public string Description { get => description; set => description = value; }
 
     }
 }
