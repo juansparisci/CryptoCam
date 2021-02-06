@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CryptoCam.ResultConversionPage">
+             x:Class="CryptoCam.ResultConversionPage"
+             xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="{Binding Total}"
@@ -17,14 +18,12 @@
                    Margin="0"
                BackgroundColor="Blue"
                />-->
-            <ActivityIndicator 
-                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"               
-                 RelativeLayout.YConstraint="0"
-                    RelativeLayout.XConstraint="0"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand"
-                Color="Orange" IsRunning="True" IsVisible="{Binding Loading}"  />
+            <CustomControls:LoadingIndicator BackgroundColor="#0C000000"
+                               IsLoading="{Binding Loading, Mode=OneWay}"
+                               LoadingIndicatorColor="Aqua"
+                               Text="Loading..."
+                               TextColor="Red"
+                               TextFontSize="20" />
             <Button Command="{Binding CloseCommand}" Text="X"  />
 
 

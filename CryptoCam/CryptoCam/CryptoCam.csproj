@@ -43,7 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ResultConversionPage.xaml">
+    <EmbeddedResource Update="CustomControls\ActivityIndicator\LoadingIndicator.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\ResultConversionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
