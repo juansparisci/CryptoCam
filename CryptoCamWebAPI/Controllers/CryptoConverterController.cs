@@ -31,7 +31,7 @@ namespace CryptoCamWebAPI.Controllers
                     request.Image.CopyTo(ms);
                     image = ms.ToArray();
                 }
-                string amount = this.Compute(Convert.ToDouble(getTextFromImage(image, request.DestinationLanguage))).ToString();
+            //    string amount = this.Compute(Convert.ToDouble(getTextFromImage(image, request.DestinationLanguage))).ToString();
                 return Ok("5" 
                //     new
                // {

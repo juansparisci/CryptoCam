@@ -19,5 +19,6 @@ namespace CryptoCam
             InitializeComponent();
             BindingContext = new ResultConversionPageViewModel(stream,selectedFiatCurrency,selectedCryptoCurrency);
         }
+        
     }
 }

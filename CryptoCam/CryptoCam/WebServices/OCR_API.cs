@@ -23,7 +23,7 @@ namespace CryptoCam.WebServices
         private static string baseAddress = Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:59865";
 
 
-        public static string GetConversion(byte[] img)
+        public async static Task<string> GetConversion(byte[] img)
         {
             string ocrUri = $"{baseAddress}/api/CryptoConverter/";
 
@@ -32,11 +32,11 @@ namespace CryptoCam.WebServices
             content.Add(imageContent, "Image", "imgName.imgext");
             content.Add(new StringContent("eng"), "DestinationLanguage");
 
-            var taskPost =  client.PostAsync(ocrUri, content);
-            Task.WaitAll(taskPost);
-            var taskReadString = taskPost.Result.Content.ReadAsStringAsync();
-            Task.WaitAll(taskReadString);
-            var r = taskReadString.Result; //ReadAsString(taskPost).Result;
+            var taskPost =  await client.PostAsync(ocrUri, content);
+           // Task.WaitAll(taskPost);
+            var taskReadString = await taskPost.Content.ReadAsStringAsync();//Result.Content.ReadAsStringAsync();
+            // Task.WaitAll(taskReadString);
+            var r = taskReadString; //ReadAsString(taskPost).Result;
             
             return r;
         }

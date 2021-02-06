@@ -7,7 +7,7 @@
             <Label Text="{Binding Total}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Image Source="{Binding FocusImgSource}"
+            <!--<Image Source="{Binding FocusImgSource}"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"
@@ -16,18 +16,18 @@
                    VerticalOptions="FillAndExpand"
                    Margin="0"
                BackgroundColor="Blue"
-               />
-            
-            <Button Command="{Binding CloseCommand}" Text="X"  />
-
-            <!--<ActivityIndicator 
+               />-->
+            <ActivityIndicator 
                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"               
                  RelativeLayout.YConstraint="0"
                     RelativeLayout.XConstraint="0"
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
-                Color="Orange" IsRunning="{Binding Loading}"  />-->
+                Color="Orange" IsRunning="True" IsVisible="{Binding Loading}"  />
+            <Button Command="{Binding CloseCommand}" Text="X"  />
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
