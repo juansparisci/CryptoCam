@@ -18,12 +18,7 @@
                    Margin="0"
                BackgroundColor="Blue"
                />-->
-            <CustomControls:LoadingIndicator BackgroundColor="#0C000000"
-                               IsLoading="{Binding Loading, Mode=OneWay}"
-                               LoadingIndicatorColor="Aqua"
-                               Text="Loading..."
-                               TextColor="Red"
-                               TextFontSize="20" />
+           
             <Button Command="{Binding CloseCommand}" Text="X"  />
 
 
