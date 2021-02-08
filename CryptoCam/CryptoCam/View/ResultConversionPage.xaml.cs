@@ -16,7 +16,7 @@ namespace CryptoCam
     {
         public ResultConversionPage(System.IO.Stream stream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
-            InitializeComponent();
+            InitializeComponent(); 
             BindingContext = new ResultConversionPageViewModel(stream,selectedFiatCurrency,selectedCryptoCurrency);
         }
         

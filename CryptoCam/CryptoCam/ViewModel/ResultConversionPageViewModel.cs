@@ -1,4 +1,6 @@
-﻿using CryptoCam.Model;
+﻿using CryptoCam.CustomControls;
+using CryptoCam.CustomControls.ActivityIndicator;
+using CryptoCam.Model;
 using CryptoCam.WebServices;
 using System;
 using System.Collections.Generic;
@@ -19,10 +21,13 @@ namespace CryptoCam.ViewModel
     //    private ImageSource focusImgSource;
         private bool loading;
         private string total;
+        private View activityLoaderPage;
+
         public string Total { get => total; set { total = value; OnPropertyChanged(); } }
         public bool Loading { get => loading; set  { loading = value; OnPropertyChanged(); } }
+        public View ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
- //       public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
+        //       public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
         public  ResultConversionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
@@ -31,7 +36,7 @@ namespace CryptoCam.ViewModel
             this.imgStream = imgStream;                     
             this.selectedFiatCurrency = selectedFiatCurrency;
             this.selectedCryptoCurrency = selectedCryptoCurrency;
-            
+            ActivityLoaderPage = new TwoArcs();
             Loading = true;
             LoadData();
 
@@ -49,7 +54,9 @@ namespace CryptoCam.ViewModel
                 imgStream.CopyTo(memoryStream);
                 imgByteArray = memoryStream.ToArray();
             }
+            await System.Threading.Tasks.Task.Delay(10000);
             Total = await OCR_API.GetConversion(imgByteArray);
+            
             Loading = false;
         }
 
