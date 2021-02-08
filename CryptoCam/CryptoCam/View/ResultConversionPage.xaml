@@ -18,7 +18,16 @@
                    Margin="0"
                BackgroundColor="Blue"
                />-->
-           
+            <ContentView Content="{Binding ActivityLoaderPage}" BackgroundColor="Purple"
+                         IsVisible="{Binding Loading}"
+                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.6}"               
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.2}"
+                    RelativeLayout.XConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="0"
+                         ></ContentView>
             <Button Command="{Binding CloseCommand}" Text="X"  />
 
 

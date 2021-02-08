@@ -21,11 +21,11 @@ namespace CryptoCam.ViewModel
     //    private ImageSource focusImgSource;
         private bool loading;
         private string total;
-        private View activityLoaderPage;
+        private ArcsBase activityLoaderPage;
 
         public string Total { get => total; set { total = value; OnPropertyChanged(); } }
         public bool Loading { get => loading; set  { loading = value; OnPropertyChanged(); } }
-        public View ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
+        public ArcsBase ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
         //       public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
@@ -36,13 +36,13 @@ namespace CryptoCam.ViewModel
             this.imgStream = imgStream;                     
             this.selectedFiatCurrency = selectedFiatCurrency;
             this.selectedCryptoCurrency = selectedCryptoCurrency;
-            ActivityLoaderPage = new TwoArcs();
+            ActivityLoaderPage = new FourArcs(new LoadingText(selectedCryptoCurrency.Description,new CenterTextPosition()));
             Loading = true;
             LoadData();
 
             CloseCommand = new Command(async () =>
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+              await Application.Current.MainPage.Navigation.PopModalAsync();
             }, () => { return true; });
         }
 

@@ -11,7 +11,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
     class FourArcs : ArcsBase
     {
      
-        public FourArcs()
+        public FourArcs(LoadingText loadingText = null) : base(loadingText)
         {
             stopwatch = new Stopwatch();
 
@@ -119,6 +119,8 @@ namespace CryptoCam.CustomControls.ActivityIndicator
                 path.AddArc(InnerRect, InnerSecondOvalStartAngle, InnerOvalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
+            
+            base.OnCanvasViewPaintSurface(sender,args);
         }
     }
 }

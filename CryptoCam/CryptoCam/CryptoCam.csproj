@@ -9,6 +9,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <WarningLevel>1</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
