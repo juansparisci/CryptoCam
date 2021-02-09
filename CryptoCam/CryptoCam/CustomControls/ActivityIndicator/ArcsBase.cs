@@ -36,10 +36,9 @@ namespace CryptoCam.CustomControls.ActivityIndicator
         private void DrawLoadingText(SKPaintSurfaceEventArgs args)
         {
 
-                SKCanvas canvas = args.Surface.Canvas;
-                SKPaint skTextPaint = new SKPaint { Color = SKColors.Black, TextSize = 48};              
+                SKCanvas canvas = args.Surface.Canvas;                          
 
-                canvas.DrawText(this.loadingText.Text,this.loadingText.LtPosition.GetPosition(args,skTextPaint,loadingText.Text) , skTextPaint);
+                canvas.DrawText(this.loadingText.Text,this.loadingText.LtPosition.GetPosition(args,loadingText.TextPaint,loadingText.Text) , loadingText.TextPaint);
             
         }
     }
