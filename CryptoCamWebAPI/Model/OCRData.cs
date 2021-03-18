@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace CryptoCamWebAPI.Model
 {
-    public class CryptoCamConvertData
+    public class OCRData
     {
         public IFormFile Image { get; set; }
         public string DestinationLanguage { get; set; }
-        public string FiatID { get; set; }
-        public string CryptoID { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace CryptoCam.ViewModel
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
-
+        
 
         public List<FiatCurrency> FiatCurrencies
         {
@@ -115,7 +115,8 @@ namespace CryptoCam.ViewModel
         }
         private void loadCurrencies()
         {
-            var currencies = OCR_API.GetCurrencies();
+            
+            var currencies = DependencyService.Get<ICryptoConverter_API>().GetCurrencies(); // CryptoConverter_API.GetCurrencies();
             this.fiatCurrencies = currencies.Item1;
             this.cryptoCurrencies = currencies.Item2;            
         }

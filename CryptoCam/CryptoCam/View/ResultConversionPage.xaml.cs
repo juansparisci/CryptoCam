@@ -14,11 +14,18 @@ namespace CryptoCam
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ResultConversionPage : ContentPage
     {
+        ResultConversionPageViewModel rcpViewModel;
         public ResultConversionPage(System.IO.Stream stream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
             InitializeComponent(); 
-            BindingContext = new ResultConversionPageViewModel(stream,selectedFiatCurrency,selectedCryptoCurrency);
+            rcpViewModel= new ResultConversionPageViewModel(stream, selectedFiatCurrency, selectedCryptoCurrency); ;
+            BindingContext = rcpViewModel;
         }
-        
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            rcpViewModel.OnAppearing();
+        }
+
     }
 }

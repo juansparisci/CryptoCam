@@ -13,7 +13,6 @@ namespace CryptoCam.CustomControls.ActivityIndicator
      
         public FourArcs(LoadingText loadingText = null) : base(loadingText)
         {
-            stopwatch = new Stopwatch();
 
             OvalStartAngle = 90; //outer arc start angle
             SecondOvalStartAngle = 270; //outer arc start angle
@@ -58,7 +57,6 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             canvas = new SKCanvasView();
             canvas.PaintSurface += OnCanvasViewPaintSurface;
             Content = canvas;
-            stopwatch.Start();
             Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerClik);
         }
 

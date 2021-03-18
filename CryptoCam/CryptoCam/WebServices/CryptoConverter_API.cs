@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace CryptoCam.WebServices
 {
-    public class OCR_API
+    public class CryptoConverter_API : ICryptoConverter_API
     {
 #if DEBUG
         private static HttpClientHandler insecureHandler = DependencyService.Get<DependencyServices.IGetHttpClientHandler>().GetInsecureHandler();
@@ -20,32 +20,33 @@ namespace CryptoCam.WebServices
 #else
                     private static    HttpClient client = new HttpClient();
 #endif
-        private static string baseAddress = Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:59865";
+        private static string baseAddress = (Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:59865")+ "/api";
 
 
-        public async static Task<string> GetConversion(byte[] img)
+        public async  Task<string> GetTextFromImage(byte[] img)
         {
-            string ocrUri = $"{baseAddress}/api/CryptoConverter/";
 
-            var content = new MultipartFormDataContent();
-            var imageContent = new ByteArrayContent(img);
-            content.Add(imageContent, "Image", "imgName.imgext");
-            content.Add(new StringContent("eng"), "DestinationLanguage");
+                string ocrUri = $"{baseAddress}/OCR/";
 
-            var taskPost =  await client.PostAsync(ocrUri, content);
-           // Task.WaitAll(taskPost);
-            var taskReadString = await taskPost.Content.ReadAsStringAsync();//Result.Content.ReadAsStringAsync();
-            // Task.WaitAll(taskReadString);
-            var r = taskReadString; //ReadAsString(taskPost).Result;
-            
-            return r;
+                var content = new MultipartFormDataContent();
+                var imageContent = new ByteArrayContent(img);
+                content.Add(imageContent, "Image", "imgName.imgext");
+                content.Add(new StringContent("eng"), "DestinationLanguage");
+
+                var taskPost = await client.PostAsync(ocrUri, content);
+                // Task.WaitAll(taskPost);
+                if (!taskPost.IsSuccessStatusCode) throw new Exception(await taskPost.Content.ReadAsStringAsync());
+
+                var taskReadString = await taskPost.Content.ReadAsStringAsync();//Result.Content.ReadAsStringAsync();
+
+                // Task.WaitAll(taskReadString);
+                var r = taskReadString; //ReadAsString(taskPost).Result;
+
+                return r;
         }
-        private static async Task<string> ReadAsString(Task<HttpResponseMessage> taskPost)
-        {
-            
-            return await taskPost.Result.Content.ReadAsStringAsync();
-        }
-        public static Tuple<List<FiatCurrency>, List<CryptoCurrency>> GetCurrencies()
+
+
+        public  Tuple<List<FiatCurrency>, List<CryptoCurrency>> GetCurrencies()
         {
             //Mock loading the currencies
             var ret = new Tuple<List<FiatCurrency>, List<CryptoCurrency>>(
@@ -55,6 +56,9 @@ namespace CryptoCam.WebServices
             return ret;
 
         }
+
+
+        
     }
 
 }

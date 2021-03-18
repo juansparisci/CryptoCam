@@ -45,12 +45,10 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
 
 
-            stopwatch = new Stopwatch();
 
             canvas = new SKCanvasView();
             canvas.PaintSurface += OnCanvasViewPaintSurface;
             Content = canvas;
-            stopwatch.Start();
             Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerClik);
         }
 

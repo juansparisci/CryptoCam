@@ -15,6 +15,7 @@ namespace CryptoCam
         MainPageViewModel mpViewModel;
         public MainPage()
         {  mpViewModel = new MainPageViewModel();
+            
             InitializeComponent();
             BindingContext = mpViewModel;
             
