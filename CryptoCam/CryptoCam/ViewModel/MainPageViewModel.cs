@@ -27,7 +27,7 @@ namespace CryptoCam.ViewModel
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
-
+        
 
         public List<FiatCurrency> FiatCurrencies
         {
@@ -57,12 +57,12 @@ namespace CryptoCam.ViewModel
         public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency;
             set {
                 selectedFiatCurrency = value;
-                //Check and update exchange rate table 
+                OnPropertyChanged();
             } }
         public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency;
             set {
                 selectedCryptoCurrency = value;
-                // check and update exchange rates table
+                OnPropertyChanged();
             } }
         public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
@@ -71,15 +71,11 @@ namespace CryptoCam.ViewModel
         {
             this.loadCurrencies();
             ScanCommand =  new Command(async () => 
-            {
+            {               
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
             }, () => { return true; });
 
-
-            /*new Command(async () => {                
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage());
-        });*/
-
+         
 
 
         }
@@ -117,6 +113,13 @@ namespace CryptoCam.ViewModel
             //Make the instance of the cropped image to null to get more free memory 
             // imgCrpr = null;
         }
+        private void loadCurrencies()
+        {
+            
+            var currencies = DependencyService.Get<ICryptoConverter_API>().GetCurrencies(); // CryptoConverter_API.GetCurrencies();
+            this.fiatCurrencies = currencies.Item1;
+            this.cryptoCurrencies = currencies.Item2;            
+        }
 
         public ICommand ScanCommand { protected set; get; }
        
@@ -125,14 +128,12 @@ namespace CryptoCam.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-        private void loadCurrencies()
+        public void OnAppearing()
         {
-            var currencies = OCR_API.GetCurrencies();
-            this.fiatCurrencies = currencies.Item1;
-            this.cryptoCurrencies = currencies.Item2;
+            SelectedCryptoCurrency = this.cryptoCurrencies[0];
+            SelectedFiatCurrency = this.fiatCurrencies[0];
         }
-
+     
        
     }
 }

@@ -9,7 +9,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 {
     public partial class TwoArcs : ArcsBase
     {
-        public TwoArcs()
+        public TwoArcs(LoadingText loadingText=null):base(loadingText)
         { 
             OvalStartAngle = 90; //outer arc start angle
             SecondOvalStartAngle = 270; //outer arc start angle
@@ -45,12 +45,10 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
 
 
-            stopwatch = new Stopwatch();
 
             canvas = new SKCanvasView();
             canvas.PaintSurface += OnCanvasViewPaintSurface;
             Content = canvas;
-            stopwatch.Start();
             Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerClik);
         }
 
@@ -62,7 +60,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             return true;
         }
 
-        */
+        
         public override void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKImageInfo info = args.Info;
@@ -95,6 +93,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
                 path.AddArc(rect, SecondOvalStartAngle, OvalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
+            base.OnCanvasViewPaintSurface(sender,args);
         }
     }
 }

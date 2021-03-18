@@ -5,6 +5,22 @@
              xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls">
     <ContentPage.Content>
         <StackLayout>
+            <!--<ContentView Content="{Binding ActivityLoaderPage}" 
+                         IsVisible="{Binding Loading}"
+                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.6}"               
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.16}"
+                    RelativeLayout.XConstraint="0"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="0"
+                         ></ContentView>-->
+            <Image Source="{Binding successIconSource}" 
+               WidthRequest="144"
+               HeightRequest="144"
+               Margin="0,275,0,0"               
+               />
+            
             <Label Text="{Binding Total}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
@@ -18,7 +34,7 @@
                    Margin="0"
                BackgroundColor="Blue"
                />-->
-           
+            
             <Button Command="{Binding CloseCommand}" Text="X"  />
 
 

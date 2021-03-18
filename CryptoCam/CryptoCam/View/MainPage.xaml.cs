@@ -12,14 +12,19 @@ namespace CryptoCam
     public partial class MainPage : ContentPage
     {
         public Xamarin.Forms.Shapes.Rectangle RectangleCameraFocus { get => rectangleCameraFocus; }
-        
+        MainPageViewModel mpViewModel;
         public MainPage()
-        {
+        {  mpViewModel = new MainPageViewModel();
+            
             InitializeComponent();
-            BindingContext = new MainPageViewModel();
+            BindingContext = mpViewModel;
             
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            mpViewModel.OnAppearing();
+        }
 
-       
     }
 }

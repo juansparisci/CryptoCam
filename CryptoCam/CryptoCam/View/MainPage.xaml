@@ -107,7 +107,7 @@
                                       Factor=1}"
                      >
                 <Picker  x:Name="fiatCurrencyPicker" 
-                     Title="F" SelectedItem="{Binding SelectedFiatCurrency}"
+                     SelectedItem="{Binding SelectedFiatCurrency}"
                            RelativeLayout.WidthConstraint=
                              "{ConstraintExpression Type=RelativeToParent,
                                       Property=Width,
@@ -126,7 +126,6 @@
                                       Factor=0.1}"
                        >TO</Label>
                 <Picker  x:Name="cryptoCurrencyPicker" TitleColor="White" TextColor="White" FontSize="Large" HorizontalOptions="FillAndExpand"
-                     Title="C"  
                         HorizontalTextAlignment="Center"
                      SelectedItem="{Binding SelectedCryptoCurrency}"
                       ItemsSource="{Binding CryptoCurrencies}"
