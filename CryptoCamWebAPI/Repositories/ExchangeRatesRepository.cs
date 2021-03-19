@@ -14,24 +14,28 @@ namespace CryptoCamWebAPI.Repositories
         private ExchangeRatesRepository() {
             rates = new List<ExchangeRate>();
         }
+        private DateTime lastUpdate;
+
+        public DateTime LastUpdate { get => lastUpdate; }
+
         public static ExchangeRatesRepository GetInstance()
         {
             if (instance == null) instance = new ExchangeRatesRepository();
             return instance;
         }
 
-
+        public IList<ExchangeRate> GetRates()
+        {
+            return this.rates;
+        }
         public void AddRate(ExchangeRate rate)
         {
             this.rates.Add(rate);
-        }
-        public IEnumerable<FiatCurrency> GetFiats()
+            lastUpdate = DateTime.Now;
+        }       
+        public static void DeleteInstance()
         {
-            return rates.Select(r=>r.Fiat);
-        }
-        public IEnumerable<CryptoCurrency> GetCryptos()
-        {
-            return rates.Select(r => r.Rates.Keys).SelectMany(s => s).GroupBy(g => g.Id).Select(g => g.First());
+            instance = null;
         }
     }
 }

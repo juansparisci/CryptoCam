@@ -1,5 +1,7 @@
 ﻿using CryptoCamWebAPI.Exceptions;
 using CryptoCamWebAPI.Model;
+using CryptoCamWebAPI.Repositories;
+using CryptoCamWebAPI.WebServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,12 @@ namespace CryptoCamWebAPI.Controllers
     [ApiController]
     public class CurrenciesController : ControllerBase
     {
-        
+        private IExchangeRates_API exchangeRates_API;
 
+        public CurrenciesController(IExchangeRates_API exchangeRates_API)
+        {
+            this.exchangeRates_API = exchangeRates_API;
+        }
 
         [HttpGet]
         public ActionResult GetCurrencies()
@@ -25,13 +31,19 @@ namespace CryptoCamWebAPI.Controllers
 
             try
             {
-                var ret = new Tuple<List<FiatCurrency>, List<CryptoCurrency>>(
-                          new List<FiatCurrency> { new FiatCurrency { Description = "USD" }, new FiatCurrency { Description = "AUD" }, new FiatCurrency { Description = "EUR" } },
-                          new List<CryptoCurrency> { new CryptoCurrency { Description = "BTC" }, new CryptoCurrency { Description = "ETH" }, new CryptoCurrency { Description = "LTC" } }
-                          );
-                return Ok(ret);
+                if (FiatCurrenciesRepository.GetInstance().GetFiats().Count() == 0)
+                {
+                    new SyncAssetsRepositoriesController(this.exchangeRates_API).UpdateRepositories();
+                }
 
-            }
+                return Ok(
+                    new
+                    {
+                        fiats = FiatCurrenciesRepository.GetInstance().GetFiats(),
+                        cryptos = CryptoCurrenciesRepository.GetInstance().GetCryptos()
+                    });
+
+            }            
             catch (Exception ex)
             {
                 return StatusCode(501, ex);

@@ -8,9 +8,9 @@ namespace CryptoCamWebAPI.Model
 {
     public class ConvertionData
     {
-        public double FiatAmount{ get; set; }
-        public int FiatID { get; set; }
-        public int CryptoID { get; set; }
+        public decimal FiatAmount{ get; set; }
+        public string FiatID { get; set; }
+        public string CryptoID { get; set; }
 
     }
 }

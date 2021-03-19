@@ -52,11 +52,6 @@ namespace CryptoCamWebAPI.Controllers
   
 
 
-        private double Compute(double amount)
-        {
-            //logic to convert to crypto
-            return amount;
-        }
         private string getTextFromImage(byte[] image, string destinationLanguage)
         {
             try

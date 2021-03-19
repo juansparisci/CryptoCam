@@ -7,8 +7,12 @@ namespace CryptoCamWebAPI.Model
 {
     public class ExchangeRate
     {
-        public FiatCurrency Fiat { get; set; }
-        public Dictionary<CryptoCurrency,float> Rates { get; set; }
+        public ExchangeRate()
+        {
+            Rates = new Dictionary<FiatCurrency, decimal>();
+        }
+        public CryptoCurrency Crypto { get; set; }
+        public Dictionary<FiatCurrency, decimal> Rates { get; set; }
 
     }
 }

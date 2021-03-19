@@ -1,3 +1,4 @@
+using CryptoCamWebAPI.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,7 @@ namespace CryptoCamWebAPI
             services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
-
+            services.AddSingleton<IExchangeRates_API, WebServices.CoinGecko.coinGecko_API>();
 
             services.AddSwaggerGen(c =>
             {
