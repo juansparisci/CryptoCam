@@ -80,7 +80,7 @@ namespace CryptoCam.ViewModel
                 imgStream.CopyTo(memoryStream);
                 imgByteArray = memoryStream.ToArray();
             }
-          //  await System.Threading.Tasks.Task.Delay(10000);
+            //  await System.Threading.Tasks.Task.Delay(10000);
             var amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
             Total = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded),selectedCryptoCurrency.Id,selectedFiatCurrency.Id);            
           //  Loading = false;

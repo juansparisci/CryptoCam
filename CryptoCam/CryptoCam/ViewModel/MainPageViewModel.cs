@@ -63,7 +63,7 @@ namespace CryptoCam.ViewModel
     
         public  MainPageViewModel()
         {
-             this.loadCurrencies();
+             
             ScanCommand =  new Command(async () => 
             {               
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
@@ -112,7 +112,10 @@ namespace CryptoCam.ViewModel
             var currencies = await DependencyService.Get<ICryptoConverter_API>()?.GetCurrencies();
            
             FiatCurrencies = currencies.Fiats;
-            CryptoCurrencies = currencies.Cryptos;            
+            CryptoCurrencies = currencies.Cryptos;
+            
+            SelectedCryptoCurrency = this.cryptoCurrencies?[0];
+            SelectedFiatCurrency = this.fiatCurrencies?[0];
         }
 
         public ICommand ScanCommand { protected set; get; }
@@ -124,8 +127,7 @@ namespace CryptoCam.ViewModel
         }
         public void OnAppearing()
         {
-            SelectedCryptoCurrency = this.cryptoCurrencies[0];
-            SelectedFiatCurrency = this.fiatCurrencies[0];
+            this.loadCurrencies();
         }
      
        

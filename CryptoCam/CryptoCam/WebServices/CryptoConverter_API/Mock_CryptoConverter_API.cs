@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace CryptoCam.WebServices
 {
-    public class Mocked_CryptoConverter_API : ICryptoConverter_API
+    public class Mock_CryptoConverter_API : ICryptoConverter_API
     {
 #if DEBUG
         private static HttpClientHandler insecureHandler = DependencyService.Get<DependencyServices.IGetHttpClientHandler>().GetInsecureHandler();
