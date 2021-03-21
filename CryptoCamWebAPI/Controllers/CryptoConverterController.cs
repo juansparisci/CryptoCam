@@ -1,51 +1,44 @@
-﻿using CryptoCamWebAPI.Model;
+﻿using CryptoCamWebAPI.Exceptions;
+using CryptoCamWebAPI.Model;
+using CryptoCamWebAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Tesseract;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CryptoCamWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CryptoConverterController : ControllerBase
+    public class CryptoConverterController : Controller
     {
-        private const string trainedDataFolderName = "tessdata";
-
-        // POST api/<CryptoConverter>
-        [HttpPost]
-        public void Post([FromForm] CryptoCamConvertData request)
+        [HttpGet]
+        public IActionResult Get([FromQuery] ConvertionData request)
         {
-            byte[] image;
-            using (var ms = new MemoryStream())
+            try
             {
-                request.Image.CopyTo(ms);
-                image = ms.ToArray();
+                var rateByCrypto = ExchangeRatesRepository.GetInstance().GetRates().FirstOrDefault(r => r.Crypto.Id == request.CryptoID);
+                if (rateByCrypto == null) throw new ConverterException("The crypto currency "+request.CryptoID+" was not found.");
+
+                var rate = rateByCrypto.Rates.FirstOrDefault(rc => rc.Key.Id == request.FiatID);
+                if(rate.Key==null) throw new ConverterException("The rate "+request.FiatID+" to "+request.CryptoID+" was not found.");
+
+                return Ok(request.FiatAmount / rate.Value);
             }
-            string amount = getTextFromImage(image, request.DestinationLanguage);
-
-        }
-
-        private string getTextFromImage(byte[] image, string destinationLanguage)
-        {
-
-            string result = "";
-            string tessPath = Path.Combine(trainedDataFolderName, "");
-
-            using (var engine = new TesseractEngine(tessPath, destinationLanguage, EngineMode.Default))
+            catch (ExternalWebServiceException ex)
             {
-                using (var img = Pix.LoadFromMemory(image))
-                {
-                    var page = engine.Process(img);
-                    result = page.GetText();
-                }
+                return StatusCode(550, ex);
             }
-            return String.IsNullOrWhiteSpace(result) ? "Ocr is finished. Return empty" : result;
+            catch(ConverterException ex)
+            {
+                return BadRequest(ex);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(501, ex); ;
+            }
+
         }
     }
 }

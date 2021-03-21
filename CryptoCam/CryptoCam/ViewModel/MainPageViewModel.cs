@@ -1,6 +1,7 @@
 ﻿using CryptoCam.CustomControls;
 using CryptoCam.Model;
 using CryptoCam.WebServices;
+using Helpers.NetStandard;
 using Newtonsoft.Json;
 using SkiaSharp;
 using System;
@@ -20,68 +21,101 @@ namespace CryptoCam.ViewModel
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-
+        
         private List<FiatCurrency> fiatCurrencies;
         private List<CryptoCurrency> cryptoCurrencies;
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
-        private string result;
+        private ImageSource focusImgSource;
         
-        public List<FiatCurrency> FiatCurrencies 
+
+        public List<FiatCurrency> FiatCurrencies
         {
-            get => fiatCurrencies; 
+            get => fiatCurrencies;
             set
             {
                 fiatCurrencies = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("FiatCurrency"));
-                }
+                OnPropertyChanged();
             }
 
         }
-        public List<CryptoCurrency> CryptoCurrencies 
+        public List<CryptoCurrency> CryptoCurrencies
         {
-                get => cryptoCurrencies; 
-                set{
-                cryptoCurrencies = value; 
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("CryptoCurrencies"));
-                }
-            } 
+            get => cryptoCurrencies;
+            set {
+                cryptoCurrencies = value;
+                OnPropertyChanged();
+            }
         }
 
-        public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency; 
-            set { 
+        public FiatCurrency SelectedFiatCurrency { get => selectedFiatCurrency;
+            set {
                 selectedFiatCurrency = value;
-                //Check and update exchange rate table 
-                Result = "You have selected "+value.Description;
+                OnPropertyChanged();
             } }
-        public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency; 
-            set { 
+        public CryptoCurrency SelectedCryptoCurrency { get => selectedCryptoCurrency;
+            set {
                 selectedCryptoCurrency = value;
-                // check and update exchange rates table
-                Result = "You have selected " + value.Description;
+                OnPropertyChanged();
             } }
-        public string Result { get => result; set { result = value; OnPropertyChanged(); } }
+        public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
-        public MainPageViewModel()
+    
+        public  MainPageViewModel()
         {
-            this.loadCurrencies();
-            ScanCommand = new Command(() =>{ this.scan();},() =>{return true;});
-            
+             
+            ScanCommand =  new Command(async () => 
+            {               
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
+            }, () => { return true; });
+
+         
+
+
         }
          
-        private void scan()
+        private Stream scan()
         {
-            Result = "ScanCommand Pressed";
+            Stream ret = new MemoryStream();
+            
+            var mainPage = ((MainPage)Application.Current.MainPage);
+
+            //get current picture from the camera
             var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
 
+            //get rectangle used to focus the camera
+            Xamarin.Forms.Shapes.Rectangle rectFocus = mainPage.RectangleCameraFocus;
+
+            //create variables needed to crop the image:
+            //    * rectangle source (screen size)
+            //    * destination rectangle (it was got by the rectangle focus)
+            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0,(int)rectFocus.Y,(int)rectFocus.Width,(int)rectFocus.Height);
+            System.Drawing.Rectangle sourceRect = new System.Drawing.Rectangle(0,0,(int)mainPage.Width,(int)mainPage.Height);
+
+            //crop the full size picture from the camera to the focused rectangle
+            //using (var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait))
+            //{
+            //     imgCrpr.CroppedImageStream.CopyTo(ret);
+            //}
+            var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait);
+           // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
+            return imgCrpr.CroppedImageStream;
+
+
+            //await Application.Current.MainPage.Navigation.PushAsync(new ResultConversionPage());
+
+            //Make the instance of the cropped image to null to get more free memory 
+            // imgCrpr = null;
+        }
+        private async void loadCurrencies()
+        {
+            var currencies = await DependencyService.Get<ICryptoConverter_API>()?.GetCurrencies();
+           
+            FiatCurrencies = currencies.Fiats;
+            CryptoCurrencies = currencies.Cryptos;
             
-
-            var r = WebServices.OCR_API.GetTextFromImage(imgBytes);
-
+            SelectedCryptoCurrency = this.cryptoCurrencies?[0];
+            SelectedFiatCurrency = this.fiatCurrencies?[0];
         }
 
         public ICommand ScanCommand { protected set; get; }
@@ -91,14 +125,11 @@ namespace CryptoCam.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-        private void loadCurrencies()
+        public void OnAppearing()
         {
-            var currencies = OCR_API.GetCurrencies();
-            this.fiatCurrencies = currencies.Item1;
-            this.cryptoCurrencies = currencies.Item2;
+            this.loadCurrencies();
         }
-
+     
        
     }
 }
