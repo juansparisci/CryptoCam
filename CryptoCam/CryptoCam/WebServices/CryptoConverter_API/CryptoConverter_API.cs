@@ -1,5 +1,6 @@
 ﻿using CryptoCam.DependencyServices;
 using CryptoCam.Model;
+using CryptoCam.Model.Responses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -46,19 +47,39 @@ namespace CryptoCam.WebServices
         }
 
 
-        public  Tuple<List<FiatCurrency>, List<CryptoCurrency>> GetCurrencies()
+        public async Task<Currencies> GetCurrencies()
         {
-            //Mock loading the currencies
-            var ret = new Tuple<List<FiatCurrency>, List<CryptoCurrency>>(
-                        new List<FiatCurrency> { new FiatCurrency { Description = "USD" }, new FiatCurrency { Description = "AUD" }, new FiatCurrency { Description = "EUR" } },
-                        new List<CryptoCurrency> { new CryptoCurrency { Description = "BTC" }, new CryptoCurrency { Description = "ETH" }, new CryptoCurrency { Description = "LTC" } }
-                        );
+            var ret = new Currencies();
+
+            string ocrUri = $"{baseAddress}/Currencies/";
+            var taskGet = await client.GetAsync(ocrUri);
+
+            
+            if (!taskGet.IsSuccessStatusCode) throw new Exception(await taskGet.Content.ReadAsStringAsync());
+
+            var taskReadString = await taskGet.Content.ReadAsStringAsync();
+            ret = JsonConvert.DeserializeObject<Currencies>(taskReadString);
+             
             return ret;
 
         }
 
+        public async Task<string> Convert(decimal amount, string cryptoId, string fiatID)
+        {
+            var ret = "";
+            string parameters = $"?FiatAmount={amount}&FiatID={fiatID}&CryptoID={cryptoId}";
+            string ocrUri = $"{baseAddress}/CryptoConverter/{parameters}";
+            
 
-        
+            var taskGet = await client.GetAsync(ocrUri);
+
+            if (!taskGet.IsSuccessStatusCode) throw new Exception(await taskGet.Content.ReadAsStringAsync());
+
+            var taskReadString = await taskGet.Content.ReadAsStringAsync();
+            ret = taskReadString;
+
+            return ret;
+        }
     }
 
 }

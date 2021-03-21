@@ -35,10 +35,7 @@ namespace CryptoCam.ViewModel
             set
             {
                 fiatCurrencies = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("FiatCurrency"));
-                }
+                OnPropertyChanged();
             }
 
         }
@@ -47,10 +44,7 @@ namespace CryptoCam.ViewModel
             get => cryptoCurrencies;
             set {
                 cryptoCurrencies = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("CryptoCurrencies"));
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -67,9 +61,9 @@ namespace CryptoCam.ViewModel
         public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
     
-        public MainPageViewModel()
+        public  MainPageViewModel()
         {
-            this.loadCurrencies();
+             this.loadCurrencies();
             ScanCommand =  new Command(async () => 
             {               
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
@@ -113,12 +107,12 @@ namespace CryptoCam.ViewModel
             //Make the instance of the cropped image to null to get more free memory 
             // imgCrpr = null;
         }
-        private void loadCurrencies()
+        private async void loadCurrencies()
         {
-            
-            var currencies = DependencyService.Get<ICryptoConverter_API>().GetCurrencies(); // CryptoConverter_API.GetCurrencies();
-            this.fiatCurrencies = currencies.Item1;
-            this.cryptoCurrencies = currencies.Item2;            
+            var currencies = await DependencyService.Get<ICryptoConverter_API>()?.GetCurrencies();
+           
+            FiatCurrencies = currencies.Fiats;
+            CryptoCurrencies = currencies.Cryptos;            
         }
 
         public ICommand ScanCommand { protected set; get; }
