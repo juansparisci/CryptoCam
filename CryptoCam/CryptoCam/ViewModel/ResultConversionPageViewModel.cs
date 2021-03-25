@@ -2,6 +2,7 @@
 using CryptoCam.CustomControls.ActivityIndicator;
 using CryptoCam.DependencyServices.OCR;
 using CryptoCam.Model;
+using CryptoCam.ViewModel.StatusResult;
 using CryptoCam.WebServices;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,11 @@ namespace CryptoCam.ViewModel
         private CryptoCurrency selectedCryptoCurrency;
     //    private ImageSource focusImgSource;
         private bool loading;
-        private string total;
-        private string error;
         private ArcsBase activityLoaderPage;
         private ContentPage loadingContentPage;
-        public ImageSource successIconSource { get => ImageSource.FromResource("CryptoCam.Resources.successIcon.png"); }
+        private ContentView resultContentView;
 
-        public string Total { get => total; set { total = value; OnPropertyChanged(); } }
-        public string Error { get => error; set { error = value;  loadingContentPage.DisplayAlert("Error", value, "OK"); } }
+        
 
         public bool Loading { get => loading; 
             set  { 
@@ -45,6 +43,7 @@ namespace CryptoCam.ViewModel
                 OnPropertyChanged();
                 
             } }
+
         public ArcsBase ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
         //       public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
@@ -54,7 +53,7 @@ namespace CryptoCam.ViewModel
             
 
             //   FocusImgSource = ImageSource.FromStream(()=>imgStream);
-
+            
 
             this.imgStream = imgStream;                     
             this.selectedFiatCurrency = selectedFiatCurrency;
@@ -74,21 +73,33 @@ namespace CryptoCam.ViewModel
 
         async Task<bool> LoadData()
         {
-            byte[] imgByteArray;
-            using (var memoryStream = new MemoryStream())
-            {
-                imgStream.CopyTo(memoryStream);
-                imgByteArray = memoryStream.ToArray();
-            }
-            //  await System.Threading.Tasks.Task.Delay(10000);
-            var amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
-            Total = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded),selectedCryptoCurrency.Id,selectedFiatCurrency.Id);            
-          //  Loading = false;
+         
+                byte[] imgByteArray;
+                using (var memoryStream = new MemoryStream())
+                {
+                    imgStream.CopyTo(memoryStream);
+                    imgByteArray = memoryStream.ToArray();
+                }
+                //  await System.Threading.Tasks.Task.Delay(10000);
+                var amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
+                var cryptoEquivalent = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded), selectedCryptoCurrency.Id, selectedFiatCurrency.Id);
+
+                ResultContentView = new Views.StatusResult.SuccessContentView( 
+                                            new SuccessContentViewViewModel
+                                                { 
+                                                    Description = amountReaded+" "+selectedFiatCurrency.Description, 
+                                                    Result = cryptoEquivalent+" "+selectedCryptoCurrency.Description 
+                                            });
+
             return true;
+            
 
         }
 
         public ICommand CloseCommand { protected set; get; }
+        public ContentView ResultContentView { get => resultContentView; set { resultContentView = value; OnPropertyChanged(); } }
+
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -97,26 +108,31 @@ namespace CryptoCam.ViewModel
         }
         public async void OnAppearing()
         {
-            if (String.IsNullOrWhiteSpace(Total)&& String.IsNullOrWhiteSpace(Error))
+            if (ResultContentView == null)//String.IsNullOrWhiteSpace(Total)&& String.IsNullOrWhiteSpace(Error))
             {
                 try
-                {
+                {      
+       
+
                     Loading = true;
                     await this.LoadData();
                 }
                 catch (Exception ex)
                 {
-                    Error = ex.Message;
+                     
+                    ResultContentView = new Views.StatusResult.ErrorContentView(
+                                new ErrorContentViewViewModel { 
+                                     ShortDescription="",
+                                     LongDescription = ex.Message
+                                }
+                        );
                 }
                 finally
                 {
-                    Loading = false;
+                    if(Loading)Loading= false;
                 }                
             }
-            if (!String.IsNullOrWhiteSpace(Error))
-            {
-               await Application.Current.MainPage.Navigation.PopModalAsync(false);
-            }
+
         }
     }
 }

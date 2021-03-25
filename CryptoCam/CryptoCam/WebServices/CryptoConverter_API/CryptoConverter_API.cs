@@ -26,6 +26,8 @@ namespace CryptoCam.WebServices
 
         public async  Task<string> GetTextFromImage(byte[] img)
         {
+            //try
+            //{
 
                 string ocrUri = $"{baseAddress}/OCR/";
 
@@ -36,7 +38,10 @@ namespace CryptoCam.WebServices
 
                 var taskPost = await client.PostAsync(ocrUri, content);
                 // Task.WaitAll(taskPost);
-                if (!taskPost.IsSuccessStatusCode) throw new Exception(await taskPost.Content.ReadAsStringAsync());
+                if (!taskPost.IsSuccessStatusCode)
+                {
+                    throw new Exception(await taskPost.Content.ReadAsStringAsync());
+                }
 
                 var taskReadString = await taskPost.Content.ReadAsStringAsync();//Result.Content.ReadAsStringAsync();
 
@@ -44,6 +49,12 @@ namespace CryptoCam.WebServices
                 var r = taskReadString; //ReadAsString(taskPost).Result;
 
                 return r;
+            //}
+            //catch(Exception ex)
+            //{
+            //    throw ex;
+            //    return "";
+            //}
         }
 
 

@@ -13,12 +13,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\errorIcon.png" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\logo_size_invert.jpg" />
     <None Remove="Resources\successIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\errorIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -50,6 +54,12 @@
 
   <ItemGroup>
     <EmbeddedResource Update="View\ResultConversionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\StatusResult\ErrorContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\StatusResult\SuccessContentView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

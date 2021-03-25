@@ -109,13 +109,23 @@ namespace CryptoCam.ViewModel
         }
         private async void loadCurrencies()
         {
-            var currencies = await DependencyService.Get<ICryptoConverter_API>()?.GetCurrencies();
-           
-            FiatCurrencies = currencies.Fiats;
-            CryptoCurrencies = currencies.Cryptos;
-            
-            SelectedCryptoCurrency = this.cryptoCurrencies?[0];
-            SelectedFiatCurrency = this.fiatCurrencies?[0];
+
+            try
+            {
+                var currencies = await DependencyService.Get<ICryptoConverter_API>()?.GetCurrencies();
+
+                FiatCurrencies = currencies.Fiats;
+                CryptoCurrencies = currencies.Cryptos;
+
+                SelectedCryptoCurrency = this.cryptoCurrencies?[0];
+                SelectedFiatCurrency = this.fiatCurrencies?[0];
+            }
+            catch(Exception ex)
+            { 
+                
+                await Application.Current.MainPage.DisplayAlert("Alert", "There was a problem trying to get the currencies from the server. Please, press OK to try again.", "OK");
+                loadCurrencies();
+            }
         }
 
         public ICommand ScanCommand { protected set; get; }
@@ -127,6 +137,7 @@ namespace CryptoCam.ViewModel
         }
         public void OnAppearing()
         {
+            if (CryptoCurrencies == null || FiatCurrencies == null) 
             this.loadCurrencies();
         }
      
