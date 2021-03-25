@@ -15,36 +15,41 @@ namespace CryptoCam.WebServices
 {
     public class Mock_CryptoConverter_API : ICryptoConverter_API
     {
-#if DEBUG
-        private static HttpClientHandler insecureHandler = DependencyService.Get<DependencyServices.IGetHttpClientHandler>().GetInsecureHandler();
-        private static HttpClient client = new HttpClient(insecureHandler);
-#else
-                    private static    HttpClient client = new HttpClient();
-#endif
-        private static string baseAddress = (Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:59865") + "/api";
+        private bool returnError;
 
 
+        public Mock_CryptoConverter_API()
+        {
+            returnError = false;
+        }
+        
+        
         public async Task<string> GetTextFromImage(byte[] img)
         {
-
+            await Task.Delay(1000);
+            if (returnError) throw new Exception("It was not possible to identify the amount, please try scanning again.");
             return "28000";
         }
 
 
-        public Task<Currencies> GetCurrencies()
+        public async Task<Currencies> GetCurrencies()
         {
-            //Mock loading the currencies
+            await Task.Delay(1000);
+            if (returnError) throw new Exception("There was an error trying to get the currencies values from the server. :( Please try again later.");
+
             var ret = new Currencies { Fiats =
-                        new List<FiatCurrency> { new FiatCurrency { Description = "USD" }, new FiatCurrency { Description = "AUD" }, new FiatCurrency { Description = "EUR" } },
+                        new List<FiatCurrency> { new FiatCurrency { Id = "usd", Description = "USD" }, new FiatCurrency { Id = "aud", Description = "AUD" }, new FiatCurrency { Id = "eur", Description = "EUR" } },
                         Cryptos = 
-                        new List<CryptoCurrency> { new CryptoCurrency { Description = "BTC" }, new CryptoCurrency { Description = "ETH" }, new CryptoCurrency { Description = "LTC" } }
+                        new List<CryptoCurrency> { new CryptoCurrency { Id="btc", Description = "BTC" }, new CryptoCurrency { Id="eth", Description = "ETH" }, new CryptoCurrency { Id="ltc", Description = "LTC" } }
                         };
-            return Task<Currencies>.FromResult(ret);
+            return ret;
 
         }
 
         public async Task<string> Convert(decimal amount, string cryptoId, string fiatID)
         {
+            await Task.Delay(1000);
+            if (returnError) throw new Exception("There was an error trying to convert the selected values.");
             return "0.5236";
         }
     }

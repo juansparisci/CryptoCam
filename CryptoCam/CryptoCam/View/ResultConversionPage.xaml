@@ -1,43 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:View="clr-namespace:CryptoCam.Views.Templates"
              x:Class="CryptoCam.ResultConversionPage"
-             xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls">
-    <ContentPage.Content>
-        <StackLayout>
-            <!--<ContentView Content="{Binding ActivityLoaderPage}" 
-                         IsVisible="{Binding Loading}"
-                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.6}"               
-                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.16}"
-                    RelativeLayout.XConstraint="0"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand"
-                   Margin="0"
-                         ></ContentView>-->
-            <Image Source="{Binding successIconSource}" 
-               WidthRequest="144"
-               HeightRequest="144"
-               Margin="0,275,0,0"               
-               />
-            
-            <Label Text="{Binding Total}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <!--<Image Source="{Binding FocusImgSource}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"               
-                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"
-                    RelativeLayout.XConstraint="0"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand"
-                   Margin="0"
-               BackgroundColor="Blue"
-               />-->
-            
-            <Button Command="{Binding CloseCommand}" Text="X"  />
+            >
+    
 
-
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout>
+        <ContentView Content="{Binding ResultContentView}" VerticalOptions="FillAndExpand"></ContentView>
+        
+    <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="OK" 
+             BackgroundColor="White"
+                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.7}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.335}"
+               HorizontalOptions="Center"
+            CornerRadius="360"
+               RelativeLayout.WidthConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.13}"
+                RelativeLayout.HeightConstraint=
+                             "{ConstraintExpression Type=RelativeToParent,
+                                      Property=Width,
+                                      Factor=0.13}"
+            Margin="70"
+            Opacity="0.95"
+            BorderColor="Black"
+            BorderWidth="6"
+            FontSize="50"
+            />
+    </StackLayout>
 </ContentPage>
