@@ -67,8 +67,10 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Camera\UICameraPreview.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Services\CameraPreviewRenderer.cs" />
     <Compile Include="Services\ImageFromViewService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
