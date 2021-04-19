@@ -9,6 +9,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms.Platform.Android.FastRenderers;
 using CryptoCam.CustomControls;
+using Android.Graphics;
+using System.Threading.Tasks;
 
 [assembly: ExportRenderer(typeof(CryptoCam.CustomControls.CameraPreview), typeof(CameraPreviewRenderer))]
 namespace CryptoCam.Droid
@@ -216,9 +218,9 @@ namespace CryptoCam.Droid
 
             public static int MakeMeasureSpec(int size, MeasureSpecMode mode) => size + (int)mode;
         }
-        public Android.Graphics.Bitmap GetBitmapPreview()
+        public Task<Bitmap> GetBitmapPreview()
         {
-            return instance.cameraFragment.Texture.Bitmap;
+            return Task.FromResult(instance.cameraFragment.Texture.Bitmap);
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CryptoCam.CustomControls;
+using CryptoCam.iOS.Camera;
 using CustomRenderer;
 using CustomRenderer.iOS;
+using Foundation;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -10,17 +13,25 @@ namespace CustomRenderer.iOS
 {
 	public class CameraPreviewRenderer : ViewRenderer<CameraPreview, UICameraPreview>
 	{
+		private static CameraPreviewRenderer instance;
 		UICameraPreview uiCameraPreview;
+
+        public CameraPreviewRenderer()
+        {
+			instance = this;
+
+		}
+
+        public static CameraPreviewRenderer GetInstance()
+		{
+			return instance;
+		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<CameraPreview> e)
 		{
 			base.OnElementChanged(e);
 
-			if (e.OldElement != null)
-			{
-				// Unsubscribe
-				uiCameraPreview.Tapped -= OnCameraPreviewTapped;
-			}
+			
 			if (e.NewElement != null)
 			{
 				if (Control == null)
@@ -28,24 +39,11 @@ namespace CustomRenderer.iOS
 					uiCameraPreview = new UICameraPreview(e.NewElement.Camera);
 					SetNativeControl(uiCameraPreview);
 				}
-				// Subscribe
-				uiCameraPreview.Tapped += OnCameraPreviewTapped;
+				
 			}
 		}
 
-		void OnCameraPreviewTapped(object sender, EventArgs e)
-		{
-			if (uiCameraPreview.IsPreviewing)
-			{
-				uiCameraPreview.CaptureSession.StopRunning();
-				uiCameraPreview.IsPreviewing = false;
-			}
-			else
-			{
-				uiCameraPreview.CaptureSession.StartRunning();
-				uiCameraPreview.IsPreviewing = true;
-			}
-		}
+	
 
 		protected override void Dispose(bool disposing)
 		{
@@ -55,6 +53,21 @@ namespace CustomRenderer.iOS
 				Control.Dispose();
 			}
 			base.Dispose(disposing);
+		}
+
+		
+		public async Task<NSData> GetUIImagePreview()
+		{
+		
+			var dlgt = new CameraDelegate();
+			instance.uiCameraPreview.CapturePhoto(dlgt);
+			
+
+
+			return await dlgt.PhotoTCS.Task;
+
+			
+			
 		}
 	}
 }

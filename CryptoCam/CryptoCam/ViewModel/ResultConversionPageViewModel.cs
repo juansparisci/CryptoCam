@@ -21,7 +21,7 @@ namespace CryptoCam.ViewModel
         private Stream imgStream;
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
-    //    private ImageSource focusImgSource;
+        private ImageSource focusImgSource;
         private bool loading;
         private ArcsBase activityLoaderPage;
         private ContentPage loadingContentPage;
@@ -46,21 +46,18 @@ namespace CryptoCam.ViewModel
 
         public ArcsBase ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
-        //       public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
+               public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
-        public  ResultConversionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        public  ResultConversionPageViewModel(ImageSource imgSource, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
-            
 
-            //   FocusImgSource = ImageSource.FromStream(()=>imgStream);
+
+            FocusImgSource = imgSource;
             
 
             this.imgStream = imgStream;                     
             this.selectedFiatCurrency = selectedFiatCurrency;
             this.selectedCryptoCurrency = selectedCryptoCurrency;
-         //   ActivityLoaderPage = new FourArcs(new LoadingText(selectedFiatCurrency.Description+"->"+ selectedCryptoCurrency.Description,new CenterTextPosition()));
-         //     Loading = true;
-            // LoadData();
 
 
             this.loadingContentPage = new ContentPage { Content = new FourArcs(new LoadingText(selectedFiatCurrency.Description + "->" + selectedCryptoCurrency.Description, new CenterTextPosition())) };
@@ -73,14 +70,13 @@ namespace CryptoCam.ViewModel
 
         async Task<bool> LoadData()
         {
-         
+           
                 byte[] imgByteArray;
                 using (var memoryStream = new MemoryStream())
                 {
                     imgStream.CopyTo(memoryStream);
                     imgByteArray = memoryStream.ToArray();
                 }
-                //  await System.Threading.Tasks.Task.Delay(10000);
                 var amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
                 var cryptoEquivalent = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded), selectedCryptoCurrency.Id, selectedFiatCurrency.Id);
 
@@ -108,7 +104,8 @@ namespace CryptoCam.ViewModel
         }
         public async void OnAppearing()
         {
-            if (ResultContentView == null)//String.IsNullOrWhiteSpace(Total)&& String.IsNullOrWhiteSpace(Error))
+            if (false && ResultContentView == null)
+           //comented to skip on testing // if ( ResultContentView == null)
             {
                 try
                 {      

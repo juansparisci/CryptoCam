@@ -27,7 +27,7 @@ namespace CryptoCam.ViewModel
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
-        
+        private ImageSource capturedImgSource;
 
         public List<FiatCurrency> FiatCurrencies
         {
@@ -61,27 +61,27 @@ namespace CryptoCam.ViewModel
         public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
     
-        public  MainPageViewModel()
+        public MainPageViewModel()
         {
-             
+           
             ScanCommand =  new Command(async () => 
-            {               
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(this.scan(),SelectedFiatCurrency,SelectedCryptoCurrency)); 
-            }, () => { return true; });
+           {
+               //  var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
+               capturedImgSource = await this.scan();
+               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(capturedImgSource,SelectedFiatCurrency,SelectedCryptoCurrency)); 
 
-         
-
+           }, () => { return true; });
 
         }
          
-        private Stream scan()
+        private async Task<ImageSource> scan()
         {
             Stream ret = new MemoryStream();
             
             var mainPage = ((MainPage)Application.Current.MainPage);
 
             //get current picture from the camera
-            var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
+            var imgBytes =  await DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
 
             //get rectangle used to focus the camera
             Xamarin.Forms.Shapes.Rectangle rectFocus = mainPage.RectangleCameraFocus;
@@ -99,7 +99,8 @@ namespace CryptoCam.ViewModel
             //}
             var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait);
            // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
-            return imgCrpr.CroppedImageStream;
+
+            return ImageSource.FromStream(() => imgCrpr.CroppedImageStream);
 
 
             //await Application.Current.MainPage.Navigation.PushAsync(new ResultConversionPage());

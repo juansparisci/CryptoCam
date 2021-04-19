@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AVFoundation;
 using CoreGraphics;
 using CryptoCam.CustomControls;
 using Foundation;
 using UIKit;
 
-namespace CustomRenderer.iOS
+namespace CryptoCam.iOS.Camera
 {
-	public class UICameraPreview : UIView
+	public class UICameraPreview : UIView 
 	{
+		AVCapturePhotoOutput photoOutput;
 		AVCaptureVideoPreviewLayer previewLayer;
 		CameraOptions cameraOptions;
 
-		public event EventHandler<EventArgs> Tapped;
 
 		public AVCaptureSession CaptureSession { get; private set; }
 
@@ -34,20 +35,8 @@ namespace CustomRenderer.iOS
 				previewLayer.Frame = Bounds;
 		}
 
-		public override void TouchesBegan(NSSet touches, UIEvent evt)
-		{
-			base.TouchesBegan(touches, evt);
-			OnTapped();
-		}
 
-		protected virtual void OnTapped()
-		{
-			var eventHandler = Tapped;
-			if (eventHandler != null)
-			{
-				eventHandler(this, new EventArgs());
-			}
-		}
+		
 
 		void Initialize()
 		{
@@ -55,8 +44,11 @@ namespace CustomRenderer.iOS
 			previewLayer = new AVCaptureVideoPreviewLayer(CaptureSession)
 			{
 				Frame = Bounds,
-				VideoGravity = AVLayerVideoGravity.ResizeAspectFill
+				VideoGravity = AVLayerVideoGravity.ResizeAspectFill,
+				 Orientation= AVCaptureVideoOrientation.Portrait
 			};
+			
+			
 
 			var videoDevices = AVCaptureDevice.DevicesWithMediaType(AVMediaType.Video);
 			var cameraPosition = (cameraOptions == CameraOptions.Front) ? AVCaptureDevicePosition.Front : AVCaptureDevicePosition.Back;
@@ -71,8 +63,31 @@ namespace CustomRenderer.iOS
 			var input = new AVCaptureDeviceInput(device, out error);
 			CaptureSession.AddInput(input);
 			Layer.AddSublayer(previewLayer);
+
+
+			photoOutput = new AVCapturePhotoOutput();
+
+			CaptureSession.AddOutput(photoOutput);
+
+
 			CaptureSession.StartRunning();
 			IsPreviewing = true;
 		}
-	}
+
+		public void CapturePhoto(CameraDelegate dlgt)
+		{
+			var settings = AVCapturePhotoSettings.Create();
+			settings.IsAutoStillImageStabilizationEnabled = true;
+			settings.FlashMode = AVCaptureFlashMode.Off;
+			
+			
+			photoOutput.CapturePhoto(settings, dlgt);
+
+
+			
+		}
+
+    }
+
+	
 }

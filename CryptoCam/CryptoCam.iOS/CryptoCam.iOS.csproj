@@ -70,10 +70,12 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Camera\CameraDelegate.cs" />
     <Compile Include="Camera\UICameraPreview.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Services\CameraPreviewRenderer.cs" />
+    <Compile Include="Services\GetHttpClientHandler.cs" />
     <Compile Include="Services\ImageFromViewService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
@@ -133,6 +135,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -143,4 +148,9 @@
       <Name>CryptoCam</Name>
     </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

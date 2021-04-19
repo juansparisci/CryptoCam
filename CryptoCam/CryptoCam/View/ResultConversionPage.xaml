@@ -5,7 +5,9 @@
             >
     
 
-    <StackLayout>
+    <StackLayout BackgroundColor="LightGray">
+        <Image Source="{Binding FocusImgSource}"></Image>
+        
         <ContentView Content="{Binding ResultContentView}" VerticalOptions="FillAndExpand"></ContentView>
         
     <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="OK" 
