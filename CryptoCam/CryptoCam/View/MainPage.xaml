@@ -170,7 +170,6 @@
                                       Factor=0.33}"
             Opacity="0.75"
             BorderColor="Gold"
-            TextColor="DarkGray"
             BorderWidth="6"
                Text="$" 
             FontSize="50"
