@@ -24,7 +24,7 @@ namespace CryptoCamWebAPI.Controllers
                 var rate = rateByCrypto.Rates.FirstOrDefault(rc => rc.Key.Id == request.FiatID);
                 if(rate.Key==null) throw new ConverterException("The rate "+request.FiatID+" to "+request.CryptoID+" was not found.");
 
-                return Ok(request.FiatAmount / rate.Value);
+                return Ok(Math.Round(request.FiatAmount / rate.Value,6));
             }
             catch (ExternalWebServiceException ex)
             {

@@ -4,10 +4,7 @@ using System.Text;
 
 namespace CryptoCamWebAPI.Model
 {
-    public class FiatCurrency
+    public class FiatCurrency : Currency
     {
-        public string Description { get ; set ; }
-        public string Id { get; set ; }
-        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CryptoCamWebAPI.Exceptions;
 using CryptoCamWebAPI.Model;
+using CryptoCamWebAPI.Model.OCRStrategy;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace CryptoCamWebAPI.Controllers
     [ApiController]
     public class OCRController : ControllerBase
     {
-        private const string trainedDataFolderName = "tessdata";
+        private OCRStrategy _OCRStrategy;
 
         
         [HttpPost]
@@ -25,6 +26,7 @@ namespace CryptoCamWebAPI.Controllers
            
             try
             {
+                
                 byte[] image;
                 using (var ms = new MemoryStream())
                 {
@@ -33,7 +35,7 @@ namespace CryptoCamWebAPI.Controllers
                 }
             
                 return Ok(
-                    getTextFromImage(image, request.DestinationLanguage)
+                    getTextFromImage(image, request.DestinationLanguage, request.TextFormat)
                     );                
                 
             }
@@ -52,24 +54,22 @@ namespace CryptoCamWebAPI.Controllers
   
 
 
-        private string getTextFromImage(byte[] image, string destinationLanguage)
+        private string getTextFromImage(byte[] image, string destinationLanguage, TextFormat textFormat)
         {
             try
             {
-                string result = "";
-                string tessPath = Path.Combine(trainedDataFolderName, "");
+                //  The selection of OCR Strategy depends on the text format:
+                //  if the format is labelprice, an instance of LabelPrice class will do the OCR
+                //  if the format is plaintext or other an instance of PlainText class will do the OCR
+                //  if there is any new requirment to customize the OCR work in the future, the new strategy must be added as new concrete strategy (inheriting class from OCRStrategy (like LabelPrice and PlainText))
+                
+                this._OCRStrategy = textFormat == TextFormat.LabelPrice ? new LabelPrice() 
+                                                    : (textFormat == TextFormat.PlainText ? new PlainText() 
+                                                         : new PlainText());
+                
+                string  result = this._OCRStrategy.DoOCR(image,destinationLanguage);
 
-                using (var engine = new TesseractEngine(tessPath, destinationLanguage, EngineMode.Default))
-                {
-                    using (var img = Pix.LoadFromMemory(image))
-                    {
-                        var page = engine.Process(img);
-                        result = page.GetText();
-                    }
-                }
-                if (String.IsNullOrWhiteSpace(result)) {
-                    throw new Exception(":( We could not detect any text in the image, please try to take the picture again :)"); }
-                else return result;
+                return result;
             }
             catch (Exception ex)
             {

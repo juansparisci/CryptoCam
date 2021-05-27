@@ -10,5 +10,7 @@ namespace CryptoCamWebAPI.Model
     {
         public IFormFile Image { get; set; }
         public string DestinationLanguage { get; set; }
+        public TextFormat TextFormat { get; set; }
+
     }
 }
