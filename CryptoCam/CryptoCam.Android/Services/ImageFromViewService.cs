@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Android.Util;
 using CryptoCam.DependencyServices;
 using Xamarin.Forms;
@@ -11,10 +12,10 @@ namespace CryptoCam.Droid.Services
 {
     public class ImageFromViewService : ICamera
     {
-        public byte[] GetPreviewFromView()
+        public async Task<byte[]> GetPreviewFromView()
         {
     
-            var bitmap = CameraPreviewRenderer.GetInstance().GetBitmapPreview();
+            var bitmap = await CameraPreviewRenderer.GetInstance().GetBitmapPreview();
             byte[] bitmapData;
 
 

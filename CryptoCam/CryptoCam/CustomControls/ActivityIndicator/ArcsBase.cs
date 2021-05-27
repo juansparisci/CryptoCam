@@ -37,7 +37,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
         {
 
                 SKCanvas canvas = args.Surface.Canvas;                          
-
+                
                 canvas.DrawText(this.loadingText.Text,this.loadingText.LtPosition.GetPosition(args,loadingText.TextPaint,loadingText.Text) , loadingText.TextPaint);
             
         }

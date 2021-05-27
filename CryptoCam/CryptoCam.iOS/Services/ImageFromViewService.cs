@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CryptoCam.DependencyServices;
+using CustomRenderer.iOS;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
@@ -12,19 +14,22 @@ namespace CryptoCam.iOS.Services
 {
     public class ImageFromViewService : ICamera
     {
-        public byte[] GetPreviewFromView()
+        public async Task<byte[]> GetPreviewFromView()
         {
-            throw new NotImplementedException();
-        }
-/*
-        public byte[] ImageToByteArray(string path)
-        {
-            throw new NotImplementedException();
-        }
-        */
-        public string RecognizeText(byte[] imageBytes)
-        {
-            throw new NotImplementedException();
+
+            var uiImage =  await CameraPreviewRenderer.GetInstance().GetUIImagePreview();
+            if (uiImage != null)
+            {
+                byte[] bitmapData;
+
+                using (uiImage)
+                {
+                    bitmapData = new Byte[uiImage.Length];
+                    System.Runtime.InteropServices.Marshal.Copy(uiImage.Bytes, bitmapData, 0, Convert.ToInt32(uiImage.Length));
+                }
+
+                return bitmapData;
+            }else return null;
         }
     }
 }

@@ -55,6 +55,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
 
             canvas = new SKCanvasView();
+            canvas.BackgroundColor = Color.White;
             canvas.PaintSurface += OnCanvasViewPaintSurface;
             Content = canvas;
             Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerClik);

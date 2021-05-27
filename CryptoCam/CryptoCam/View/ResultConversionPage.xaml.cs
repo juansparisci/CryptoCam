@@ -15,10 +15,10 @@ namespace CryptoCam
     public partial class ResultConversionPage : ContentPage
     {
         ResultConversionPageViewModel rcpViewModel;
-        public ResultConversionPage(System.IO.Stream stream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        public ResultConversionPage(ImageSource imgSource, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
             InitializeComponent(); 
-            rcpViewModel= new ResultConversionPageViewModel(stream, selectedFiatCurrency, selectedCryptoCurrency); ;
+            rcpViewModel= new ResultConversionPageViewModel(imgSource, selectedFiatCurrency, selectedCryptoCurrency); ;
             BindingContext = rcpViewModel;
         }
         protected override void OnAppearing()

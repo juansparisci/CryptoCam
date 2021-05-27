@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:View="clr-namespace:CryptoCam.Views.Templates"
              x:Class="CryptoCam.ResultConversionPage"
             >
     
 
-    <StackLayout>
+    <StackLayout BackgroundColor="LightGray">
+        <Image Source="{Binding FocusImgSource}"></Image>
+        
         <ContentView Content="{Binding ResultContentView}" VerticalOptions="FillAndExpand"></ContentView>
         
     <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="OK" 

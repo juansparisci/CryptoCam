@@ -17,4 +17,5 @@ CryptoCam/CryptoCam/obj/
 Helpers/bin/
 CryptoCamWebAPI/bin/
 CryptoCamWebAPI/Properties/PublishProfiles/CryptoCamWebAPIDeploy - Web Deploy.pubxml
+.vs/CryptoCamWebAPI/DesignTimeBuild/.dtbcache.v2
 EndPointSetUps.txt
