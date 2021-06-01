@@ -1,5 +1,6 @@
 ﻿using CryptoCamWebAPI.Exceptions;
 using CryptoCamWebAPI.Model;
+using CryptoCamWebAPI.Model.CoinGecko;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace CryptoCamWebAPI.WebServices.CoinGecko
 {
-    public class coinGecko_API : IExchangeRates_API
-    {
-        public static readonly string ExchangeRateApiEndpoint = "https://api.coingecko.com/api/v3/exchange_rates";
-        private readonly HttpClient _httpClient = new HttpClient();
+    public class CoinGecko_API : IExchangeRates_API
+    {        
+        
+        public CoinGecko_API()
+        {
+            IExchangeRates_API.ExchangeRateApiEndpoint = "https://api.coingecko.com/api/v3/exchange_rates";
+            IExchangeRates_API.httpClient = new HttpClient();
+    }
+
        public List<ExchangeRate> GetAllRates()
         {
             var ret = new List<ExchangeRate>();
@@ -50,7 +56,7 @@ namespace CryptoCamWebAPI.WebServices.CoinGecko
         {
             try
             {
-                var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, ExchangeRateApiEndpoint))
+                var response = await IExchangeRates_API.httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, IExchangeRates_API.ExchangeRateApiEndpoint))
               .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

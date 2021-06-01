@@ -35,7 +35,7 @@ namespace CryptoCamWebAPI.Controllers
 
 
 
-        internal void UpdateRepositories()
+        internal async Task UpdateRepositories()
         {
             
                 this.DeleteRepositoriesInstances();

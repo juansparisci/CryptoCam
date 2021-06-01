@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CryptoCamWebAPI.WebServices.CoinGecko
+namespace CryptoCamWebAPI.Model.CoinGecko
 {
     public class ExchangeRates_CG
     {
