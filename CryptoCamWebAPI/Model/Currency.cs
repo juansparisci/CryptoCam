@@ -10,5 +10,10 @@ namespace CryptoCamWebAPI.Model
 
         public string Description { get; set; }
         public string Id { get; set; }
+
+        public override string ToString()
+        {
+            return this.Id;
+        }
     }
 }
