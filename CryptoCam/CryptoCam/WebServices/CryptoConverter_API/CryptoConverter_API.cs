@@ -21,9 +21,7 @@ namespace CryptoCam.WebServices
 #else
                     private static    HttpClient client = new HttpClient();
 #endif
-        // private static string baseAddress = (Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://localhost:5001") + "/api";
-        //   private static string baseAddress = (Device.RuntimePlatform == Device.Android ? "http://10.0.2.2:59865" : "https://cryptocamwebapideploy.azurewebsites.net") + "/api";
-        private static string baseAddress = (Device.RuntimePlatform == Device.Android ? "https://192.168.1.2:5001" : "https://192.168.1.2:5001") + "/api";
+        private static string baseAddress = "https://cryptocamwebapideploy.azurewebsites.net/api";
 
 
         public async  Task<string> GetTextFromImage(byte[] img)

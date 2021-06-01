@@ -67,16 +67,15 @@ namespace CryptoCam.ViewModel
             ScanCommand =  new Command(async () => 
            {
                //  var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
-               capturedImgSource = await this.scan();
-               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(capturedImgSource,SelectedFiatCurrency,SelectedCryptoCurrency)); 
+             
+               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(await this.scan(), SelectedFiatCurrency,SelectedCryptoCurrency)); 
 
            }, () => { return true; });
 
         }
          
-        private async Task<ImageSource> scan()
-        {
-            Stream ret = new MemoryStream();
+        private async Task<Stream> scan()
+        {            
             
             var mainPage = ((MainPage)Application.Current.MainPage);
 
@@ -100,7 +99,7 @@ namespace CryptoCam.ViewModel
             var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait);
            // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
 
-            return ImageSource.FromStream(() => imgCrpr.CroppedImageStream);
+            return imgCrpr.CroppedImageStream;
 
 
             //await Application.Current.MainPage.Navigation.PushAsync(new ResultConversionPage());

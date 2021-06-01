@@ -46,14 +46,12 @@ namespace CryptoCam.ViewModel
 
         public ArcsBase ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
-               public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
+         //      public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
-        public  ResultConversionPageViewModel(ImageSource imgSource, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        public  ResultConversionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
 
 
-            FocusImgSource = imgSource;
-            
 
             this.imgStream = imgStream;                     
             this.selectedFiatCurrency = selectedFiatCurrency;
@@ -103,14 +101,11 @@ namespace CryptoCam.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         public async void OnAppearing()
-        {
-            if (false && ResultContentView == null)
-           //comented to skip on testing // if ( ResultContentView == null)
+        {            
+            if ( ResultContentView == null)
             {
                 try
                 {      
-       
-
                     Loading = true;
                     await this.LoadData();
                 }
