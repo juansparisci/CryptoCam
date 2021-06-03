@@ -68,7 +68,7 @@ namespace CryptoCam.ViewModel
            {
                //  var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
              
-               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConversionPage(await this.scan(), SelectedFiatCurrency,SelectedCryptoCurrency)); 
+               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(await this.scan(), SelectedFiatCurrency,SelectedCryptoCurrency)); 
 
            }, () => { return true; });
 

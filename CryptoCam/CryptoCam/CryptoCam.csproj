@@ -53,7 +53,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="View\ResultConversionPage.xaml">
+    <Compile Update="View\ResultConvertionPage.xaml.cs">
+      <DependentUpon>ResultConvertionPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="View\ResultConvertionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\StatusResult\ErrorContentView.xaml">

@@ -13,13 +13,13 @@ using Xamarin.Forms.Xaml;
 namespace CryptoCam
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ResultConversionPage : ContentPage
+    public partial class ResultConvertionPage : ContentPage
     {
-        ResultConversionPageViewModel rcpViewModel;
-        public ResultConversionPage(Stream stream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        ResultConvertionPageViewModel rcpViewModel;
+        public ResultConvertionPage(Stream stream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
             InitializeComponent(); 
-            rcpViewModel= new ResultConversionPageViewModel(stream, selectedFiatCurrency, selectedCryptoCurrency); ;
+            rcpViewModel= new ResultConvertionPageViewModel(stream, selectedFiatCurrency, selectedCryptoCurrency); ;
             BindingContext = rcpViewModel;
         }
         protected override void OnAppearing()

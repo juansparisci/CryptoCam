@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace CryptoCam.ViewModel
 {
-    public class ResultConversionPageViewModel : INotifyPropertyChanged
+    public class ResultConvertionPageViewModel : INotifyPropertyChanged
     {
         private Stream imgStream;
         private FiatCurrency selectedFiatCurrency;
@@ -48,7 +48,7 @@ namespace CryptoCam.ViewModel
 
          //      public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
-        public  ResultConversionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        public  ResultConvertionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
 
 

@@ -99,7 +99,7 @@ namespace CryptoCamWebAPI
                 .Build();
 
             // Trigger the job to run at a frecuency
-            TimeSpan interval = new TimeSpan(0, 30, 0);
+            TimeSpan interval = new TimeSpan(0, 10, 0);
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("myTrigger", "group1")
