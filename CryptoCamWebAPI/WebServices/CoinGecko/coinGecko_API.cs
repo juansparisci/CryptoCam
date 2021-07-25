@@ -19,10 +19,10 @@ namespace CryptoCamWebAPI.WebServices.CoinGecko
             IExchangeRates_API.httpClient = new HttpClient();
     }
 
-       public List<ExchangeRate> GetAllRates()
+       public async Task<List<ExchangeRate>> GetAllRates()
         {
             var ret = new List<ExchangeRate>();
-            var rates =  this.GetRatesFromService().Result.Rates;
+            var rates = (await this.GetRatesFromService()).Rates;
             IExchangeRates_API.CryptosAccepted.ForEach(crypto =>
             {
                 var cryptoInAPI = rates.FirstOrDefault(c=>c.Key.ToUpper()==crypto.Description.ToUpper());

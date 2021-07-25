@@ -18,9 +18,10 @@ namespace CryptoCamWebAPI.Controllers
     [ApiController]
     public class CurrenciesController : ControllerBase
     {
-
-        public CurrenciesController()
+        private IExchangeRates_API exchangeRates_API;
+        public CurrenciesController(IExchangeRates_API exchangeRates_API)
         {
+            this.exchangeRates_API = exchangeRates_API;
         }
 
         [HttpGet]
@@ -28,7 +29,11 @@ namespace CryptoCamWebAPI.Controllers
         {
 
             try
-            {              
+            {
+                var fiats = FiatCurrenciesRepository.GetInstance().GetFiats();
+                var cryptos = CryptoCurrenciesRepository.GetInstance().GetCryptos();
+                if ((!fiats.Any()) || (!cryptos.Any()))
+                    new SyncAssetsRepositoriesController(this.exchangeRates_API).UpdateRepositories().Wait();
 
                 return Ok(
                     new

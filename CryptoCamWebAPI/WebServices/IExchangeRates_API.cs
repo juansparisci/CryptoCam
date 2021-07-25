@@ -16,6 +16,6 @@ namespace CryptoCamWebAPI.WebServices
         public static readonly List<CryptoCurrency> CryptosAccepted = new List<CryptoCurrency> { new CryptoCurrency {Description = "BTC" }, new CryptoCurrency {Description = "ETH" }, new CryptoCurrency {Description = "SATS" }, new CryptoCurrency {Description = "LTC" } };
 
 
-        public abstract List<ExchangeRate> GetAllRates();
+        public abstract Task<List<ExchangeRate>> GetAllRates();
     }
 }
