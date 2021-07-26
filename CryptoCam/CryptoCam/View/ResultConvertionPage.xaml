@@ -5,12 +5,13 @@
             >
     
 
-    <StackLayout BackgroundColor="LightGray">
+    <StackLayout BackgroundColor="Black">
         <!--<Image Source="{Binding FocusImgSource}"></Image>-->
         
         <ContentView Content="{Binding ResultContentView}" VerticalOptions="FillAndExpand"></ContentView>
         
-    <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="OK" 
+    <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="X" 
+            TextColor="Green"
              BackgroundColor="White"
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.7}"
             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.335}"
@@ -25,9 +26,8 @@
                                       Property=Width,
                                       Factor=0.13}"
             Margin="70"
-            Opacity="0.95"
-            BorderColor="Black"
-            BorderWidth="6"
+            BorderColor="DarkGray"
+            BorderWidth="3"
             FontSize="50"
             />
     </StackLayout>

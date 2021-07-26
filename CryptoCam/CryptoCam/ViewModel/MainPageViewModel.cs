@@ -28,6 +28,7 @@ namespace CryptoCam.ViewModel
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
         private ImageSource capturedImgSource;
+        public ImageSource convertIconSource { get => ImageSource.FromResource("CryptoCam.Resources.convertButton.png"); }
 
         public List<FiatCurrency> FiatCurrencies
         {

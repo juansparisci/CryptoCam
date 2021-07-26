@@ -4,7 +4,7 @@
              x:Class="CryptoCam.Views.StatusResult.ErrorContentView">
   <ContentView.Content>
         <StackLayout Grid.Row="0" Orientation="Vertical" BackgroundColor="Transparent">
-            <Image Source="{Binding errorIconSource}" 
+            <Image Source="{Binding errorIconSource}" BackgroundColor="DarkRed"
                WidthRequest="144"
                HeightRequest="144"
                Margin="0,100,0,0"               

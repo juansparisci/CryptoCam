@@ -14,13 +14,18 @@
 
         
 
-            <Label FontSize="Medium" Text="{Binding Description}"
+            <Label FontSize="25" Text="{Binding Description}"
                 VerticalOptions="Start" 
-                HorizontalOptions="CenterAndExpand" />
-            <Label FontSize="50"
-                   Text="{Binding Result}"
+                HorizontalOptions="CenterAndExpand" 
+                   Margin="0,5,0,0"
+                   />
+            <Label FontSize="35"
+                 Text="{Binding Result}"
                 VerticalOptions="StartAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" 
+                   Margin="0,50,0,0"
+                   TextColor="Gold"
+                   />
 
 
 

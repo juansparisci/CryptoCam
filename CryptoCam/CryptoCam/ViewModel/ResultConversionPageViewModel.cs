@@ -81,8 +81,8 @@ namespace CryptoCam.ViewModel
                 ResultContentView = new Views.StatusResult.SuccessContentView( 
                                             new SuccessContentViewViewModel
                                                 { 
-                                                    Description = amountReaded+" "+selectedFiatCurrency.Description, 
-                                                    Result = cryptoEquivalent+" "+selectedCryptoCurrency.Description 
+                                                    Description = selectedFiatCurrency.Description + " " + amountReaded, 
+                                                    Result = selectedCryptoCurrency.Description + " " + cryptoEquivalent
                                             });
 
             return true;

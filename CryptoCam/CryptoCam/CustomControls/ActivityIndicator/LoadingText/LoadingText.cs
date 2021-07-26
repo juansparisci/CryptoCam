@@ -18,7 +18,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
         public LoadingText(string text, ILoadingTextPosition position)
         {
             //Set text style
-            this.textPaint = new SKPaint { Color = SKColors.Black, TextSize = 48 };
+            this.textPaint = new SKPaint { Color = SKColors.OrangeRed, TextSize = 48 };
 
             //Set text
             this.text = text;

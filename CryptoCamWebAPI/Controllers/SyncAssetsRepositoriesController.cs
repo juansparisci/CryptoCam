@@ -43,7 +43,7 @@ namespace CryptoCamWebAPI.Controllers
                 var fiatRepository = FiatCurrenciesRepository.GetInstance();
                 var cryptoRepository = CryptoCurrenciesRepository.GetInstance();
 
-                (await exchangeRates_API?.GetAllRates()).ForEach(ratesByCrypto =>
+                (await exchangeRates_API?.GetAllRatesWithoutFiltering()).ForEach(ratesByCrypto =>
                 {
 
                     var cryptoInRepo = cryptoRepository.GetCryptoByID(ratesByCrypto.Crypto.Id);

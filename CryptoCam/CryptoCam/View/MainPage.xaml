@@ -119,7 +119,7 @@
                     ItemsSource="{Binding FiatCurrencies}"
                     ItemDisplayBinding="{Binding Description}"
                      HorizontalOptions="FillAndExpand"/>
-                <Label FontSize="Large" TextColor="Red" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                <Label FontSize="Medium" TextColor="OrangeRed" FontAttributes="None"  VerticalOptions="Center" HorizontalTextAlignment="Center"
                        RelativeLayout.WidthConstraint=
                              "{ConstraintExpression Type=RelativeToParent,
                                       Property=Width,
@@ -152,10 +152,16 @@
             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                  
           />-->
+        <!--TextColor="Gold"
+               Text="$" 
+            FontSize="50"
+         BackgroundColor="White"-->
 
-        <Button            TextColor="Gold"
+        <ImageButton           
+             
+        Source = "{ Binding convertIconSource }"
             Command="{Binding ScanCommand}"
-              BackgroundColor="White"
+            BackgroundColor="Transparent"
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.7}"
             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.335}"
                HorizontalOptions="FillAndExpand"
@@ -170,12 +176,13 @@
                                       Factor=0.33}"
             Opacity="0.75"
             BorderColor="Gold"
-            BorderWidth="6"
-               Text="$" 
-            FontSize="50"
+                           
+                         
+            BorderWidth="1"
+        
            >
 
-        </Button>
+        </ImageButton>
         <Label  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.98}"
                 FontSize="10"
                 TextColor="White"

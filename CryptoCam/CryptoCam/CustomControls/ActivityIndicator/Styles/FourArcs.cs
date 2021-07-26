@@ -31,7 +31,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             {
                 Style = SKPaintStyle.Stroke,
 
-                Color = SKColor.FromHsl(293, 44, 47),
+                Color = SKColor.FromHsl(40, 100, 50),
                 StrokeWidth = 25,
                 IsAntialias = true,
                 StrokeCap = SKStrokeCap.Round
@@ -46,7 +46,7 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             {
                 Style = SKPaintStyle.Stroke,
 
-                Color = SKColor.FromHsl(294, 44, 75),
+                Color = SKColor.FromHsl(21, 100, 50),
                 StrokeWidth = 25,
                 IsAntialias = true,
                 StrokeCap = SKStrokeCap.Round
@@ -55,10 +55,10 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
 
             canvas = new SKCanvasView();
-            canvas.BackgroundColor = Color.White;
+            canvas.BackgroundColor = Color.Black;
             canvas.PaintSurface += OnCanvasViewPaintSurface;
             Content = canvas;
-            Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerClik);
+            Device.StartTimer(TimeSpan.FromMilliseconds(30), OnTimerClik);
         }
 
         public override bool OnTimerClik()

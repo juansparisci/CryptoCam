@@ -51,6 +51,33 @@ namespace CryptoCamWebAPI.WebServices.CoinGecko
             return ret;
         }
 
+        public async Task<List<ExchangeRate>> GetAllRatesWithoutFiltering()
+        {
+            var ret = new List<ExchangeRate>();
+            var rates = (await this.GetRatesFromService()).Rates;
+            rates.Where(r=>r.Value.Type == "crypto").ToList().ForEach(crypto =>
+            {               
+                    ExchangeRate oRate = new ExchangeRate();
+                    oRate.Crypto = new CryptoCurrency { Id = crypto.Key, Description = crypto.Key.ToUpper() };
+
+                    rates.Where(r => r.Value.Type == "fiat").ToList().ForEach(fiat =>
+                    {
+                        
+                            FiatCurrency oFiat = new FiatCurrency { Id = fiat.Key, Description = fiat.Key.ToUpper() };
+                            oRate.Rates.Add(oFiat, fiat.Value.Value.Value / crypto.Value.Value.Value);
+                        
+                    });
+                    if (oRate.Rates.Count > 0)
+                    {
+                        ret.Add(oRate);
+                    }
+                
+            });
+
+
+            return ret;
+        }
+
 
         private async Task<ExchangeRates_CG> GetRatesFromService()
         {
