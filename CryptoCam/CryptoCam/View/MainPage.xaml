@@ -4,6 +4,7 @@
              x:Class="CryptoCam.MainPage"
               xmlns:local="clr-namespace:CryptoCam;assembly=CryptoCam"
              xmlns:CustomControls="clr-namespace:CryptoCam.CustomControls;assembly=CryptoCam"
+             xmlns:Buttons="clr-namespace:CryptoCam.CustomControls.Buttons;assembly=CryptoCam"
              >
     <RelativeLayout>
         <CustomControls:CameraPreview Camera="Rear" 
@@ -42,7 +43,7 @@
                     RelativeLayout.XConstraint="0"
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
-                   Margin="0"
+                   Margin="0"                   
             />
         
         <Image Source="{Binding FocusImgSource}"
@@ -53,7 +54,7 @@
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
                    Margin="0"
-               BackgroundColor="Transparent"
+                   BackgroundColor="Transparent"
                />
         
         <Frame BackgroundColor="Black" 
@@ -157,8 +158,7 @@
             FontSize="50"
          BackgroundColor="White"-->
 
-        <ImageButton           
-             
+        <Buttons:RotatingImageButton           
         Source = "{ Binding convertIconSource }"
             Command="{Binding ScanCommand}"
             BackgroundColor="Transparent"
@@ -181,8 +181,26 @@
             BorderWidth="1"
         
            >
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Rotation"
+                            Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
 
-        </ImageButton>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Rotation"
+                            Value="90" />
+
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Buttons:RotatingImageButton>
         <Label  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.98}"
                 FontSize="10"
                 TextColor="White"

@@ -12,12 +12,14 @@
 
             <Label Margin="30" FontSize="Medium" Text="{Binding LongDescription}"
                 VerticalOptions="Start" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand"  TextColor="DarkGray"/>
             <Label FontSize="50"
                    Margin="50"
                    Text="{Binding ShortDescription}"
                 VerticalOptions="StartAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" 
+                   TextColor="DarkGray"
+                   />
 
 
 

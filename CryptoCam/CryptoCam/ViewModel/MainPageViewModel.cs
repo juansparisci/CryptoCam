@@ -1,4 +1,4 @@
-﻿using CryptoCam.CustomControls;
+﻿
 using CryptoCam.Model;
 using CryptoCam.WebServices;
 using Helpers.NetStandard;
@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -28,7 +29,10 @@ namespace CryptoCam.ViewModel
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
         private ImageSource capturedImgSource;
+
+        
         public ImageSource convertIconSource { get => ImageSource.FromResource("CryptoCam.Resources.convertButton.png"); }
+
 
         public List<FiatCurrency> FiatCurrencies
         {
@@ -67,11 +71,24 @@ namespace CryptoCam.ViewModel
            
             ScanCommand =  new Command(async () => 
            {
-               //  var imgBytes = DependencyService.Get<DependencyServices.ICamera>().GetPreviewFromView();
-             
-               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(await this.scan(), SelectedFiatCurrency,SelectedCryptoCurrency)); 
+               
 
-           }, () => { return true; });
+               var scanTask = Task.Run(() => this.scan());
+
+
+               await scanTask;
+
+
+
+
+
+
+               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(((Task<Stream>)scanTask).Result, SelectedFiatCurrency,SelectedCryptoCurrency));
+               
+          //     ImageFocusBackgroundColor = Color.Transparent;
+
+           }, () => {               
+               return true; });
 
         }
          

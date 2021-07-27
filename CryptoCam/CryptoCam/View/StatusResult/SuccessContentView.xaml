@@ -18,6 +18,7 @@
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" 
                    Margin="0,5,0,0"
+                   TextColor="DarkGray"
                    />
             <Label FontSize="35"
                  Text="{Binding Result}"
