@@ -15,10 +15,10 @@ namespace CryptoCam.CustomControls.ActivityIndicator
         public ILoadingTextPosition LtPosition { get => ltPosition; set => ltPosition = value; }
         public SKPaint TextPaint { get => textPaint; set => textPaint = value; }
 
-        public LoadingText(string text, ILoadingTextPosition position)
+        public LoadingText(string text, ILoadingTextPosition position, SKColor color, int textSize)
         {
             //Set text style
-            this.textPaint = new SKPaint { Color = SKColors.OrangeRed, TextSize = 48 };
+            this.textPaint = new SKPaint { Color = color, TextSize = textSize };
 
             //Set text
             this.text = text;

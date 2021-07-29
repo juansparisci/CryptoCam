@@ -11,17 +11,17 @@ namespace CryptoCam.CustomControls.ActivityIndicator
     class FourArcs : ArcsBase
     {
      
-        public FourArcs(LoadingText loadingText = null) : base(loadingText)
+        public FourArcs() : base()
         {
 
-            OvalStartAngle = 90; //outer arc start angle
-            SecondOvalStartAngle = 270; //outer arc start angle
-            OvalSweepAngle = 80; //outer arcg sweep angle from the start angle position
+            ovalStartAngle = 90; //outer arc start angle
+            secondOvalStartAngle = 270; //outer arc start angle
+            ovalSweepAngle = 80; //outer arcg sweep angle from the start angle position
+           
 
-
-            InnerOvalStartAngle = 90; //inner arc start angle
-            InnerSecondOvalStartAngle = 270; //inner arc start angle
-            InnerOvalSweepAngle = 80; //inner arcg sweep angle from the start angle position
+            innerOvalStartAngle = 90; //inner arc start angle
+            innerSecondOvalStartAngle = 270; //inner arc start angle
+            innerOvalSweepAngle = 80; //inner arcg sweep angle from the start angle position
 
             /// outer arc paint style
             /// defined the style as stroke
@@ -63,10 +63,10 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
         public override bool OnTimerClik()
         {
-            OvalStartAngle += 2;
-            SecondOvalStartAngle += 2;
-            InnerOvalStartAngle += 8;
-            InnerSecondOvalStartAngle += 8;
+            ovalStartAngle += 2;
+            secondOvalStartAngle += 2;
+            innerOvalStartAngle += 8;
+            innerSecondOvalStartAngle += 8;
             canvas.InvalidateSurface();
             return true;
         }
@@ -97,25 +97,25 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             //canvas.DrawCircle(info.Width / 2, info.Height / 2, 250, firstArcPaint);
             using (SKPath path = new SKPath())
             {
-                path.AddArc(rect, OvalStartAngle, OvalSweepAngle);
+                path.AddArc(rect, ovalStartAngle, ovalSweepAngle);
                 canvas.DrawPath(path, firstArcPaint);
             }
 
             using (SKPath path = new SKPath())
             {
-                path.AddArc(rect, SecondOvalStartAngle, OvalSweepAngle);
+                path.AddArc(rect, secondOvalStartAngle, ovalSweepAngle);
                 canvas.DrawPath(path, firstArcPaint);
             }
 
             using (SKPath path = new SKPath())
             {
-                path.AddArc(InnerRect, InnerOvalStartAngle, InnerOvalSweepAngle);
+                path.AddArc(InnerRect, innerOvalStartAngle, innerOvalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
 
             using (SKPath path = new SKPath())
             {
-                path.AddArc(InnerRect, InnerSecondOvalStartAngle, InnerOvalSweepAngle);
+                path.AddArc(InnerRect, innerSecondOvalStartAngle, innerOvalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
             

@@ -9,11 +9,11 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 {
     public partial class TwoArcs : ArcsBase
     {
-        public TwoArcs(LoadingText loadingText=null):base(loadingText)
+        public TwoArcs():base()
         { 
-            OvalStartAngle = 90; //outer arc start angle
-            SecondOvalStartAngle = 270; //outer arc start angle
-            OvalSweepAngle = 50; //outer arcg sweep angle from the start angle position   
+            ovalStartAngle = 90; //outer arc start angle
+            secondOvalStartAngle = 270; //outer arc start angle
+            ovalSweepAngle = 50; //outer arcg sweep angle from the start angle position   
             /// outer arc paint style
             /// defined the style as stroke
             /// color of the stroke using hsl format * you can change the color code here*
@@ -54,8 +54,8 @@ namespace CryptoCam.CustomControls.ActivityIndicator
 
         public override bool OnTimerClik()
         {
-            OvalStartAngle += 5;
-            SecondOvalStartAngle += 5;
+            ovalStartAngle += 5;
+            secondOvalStartAngle += 5;
             canvas.InvalidateSurface();
             return true;
         }
@@ -85,12 +85,12 @@ namespace CryptoCam.CustomControls.ActivityIndicator
             canvas.DrawCircle(info.Width / 2, info.Height / 2, 250, firstArcPaint);
             using (SKPath path = new SKPath())
             {
-                path.AddArc(rect, OvalStartAngle, OvalSweepAngle);
+                path.AddArc(rect, ovalStartAngle, ovalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
             using (SKPath path = new SKPath())
             {
-                path.AddArc(rect, SecondOvalStartAngle, OvalSweepAngle);
+                path.AddArc(rect, secondOvalStartAngle, ovalSweepAngle);
                 canvas.DrawPath(path, secondArcPaint);
             }
             base.OnCanvasViewPaintSurface(sender,args);

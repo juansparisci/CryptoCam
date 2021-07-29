@@ -22,43 +22,28 @@ namespace CryptoCam.ViewModel
         private FiatCurrency selectedFiatCurrency;
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
-        private bool loading;
-        private ArcsBase activityLoaderPage;
-        private ContentPage loadingContentPage;
+
         private ContentView resultContentView;
+        private string fiatAmount;
+        private string cryptoAmount;
 
-        
 
-        public bool Loading { get => loading; 
-            set  { 
-                loading = value;
-                if (value)
-                {
-                    Application.Current.MainPage.Navigation.PushModalAsync(this.loadingContentPage,false);
-                }
-                else
-                {
-                    Application.Current.MainPage.Navigation.PopModalAsync(false);
-                }
-                OnPropertyChanged();
-                
-            } }
 
-        public ArcsBase ActivityLoaderPage { get => activityLoaderPage; set { activityLoaderPage = value; OnPropertyChanged(); } }
 
-         //      public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
 
-        public  ResultConvertionPageViewModel(Stream imgStream, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
+        //      public ImageSource FocusImgSource { get => focusImgSource; set { focusImgSource = value; OnPropertyChanged(); } }
+
+        public  ResultConvertionPageViewModel(string fiatAmount, string cryptoAmount, FiatCurrency selectedFiatCurrency, CryptoCurrency selectedCryptoCurrency)
         {
+            this.fiatAmount = fiatAmount;
+            this.cryptoAmount = cryptoAmount;
 
-
-
-            this.imgStream = imgStream;                     
+                
             this.selectedFiatCurrency = selectedFiatCurrency;
             this.selectedCryptoCurrency = selectedCryptoCurrency;
 
 
-            this.loadingContentPage = new ContentPage { Content = new FourArcs(new LoadingText(selectedFiatCurrency.Description + "->" + selectedCryptoCurrency.Description, new CenterTextPosition())) };
+            
 
             CloseCommand = new Command(async () =>
             {
@@ -66,23 +51,31 @@ namespace CryptoCam.ViewModel
             }, () => { return true; });
         }
 
+        public ResultConvertionPageViewModel(string error)
+        {
+            ResultContentView = new Views.StatusResult.ErrorContentView(
+                                 new ErrorContentViewViewModel
+                                 {
+                                     ShortDescription = "",
+                                     LongDescription = error
+                                 }
+                         );
+
+            CloseCommand = new Command(async () =>
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }, () => { return true; });
+        }
+
         async Task<bool> LoadData()
         {
            
-                byte[] imgByteArray;
-                using (var memoryStream = new MemoryStream())
-                {
-                    imgStream.CopyTo(memoryStream);
-                    imgByteArray = memoryStream.ToArray();
-                }
-                var amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
-                var cryptoEquivalent = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded), selectedCryptoCurrency.Id, selectedFiatCurrency.Id);
-
+              
                 ResultContentView = new Views.StatusResult.SuccessContentView( 
                                             new SuccessContentViewViewModel
                                                 { 
-                                                    Description = selectedFiatCurrency.Description + " " + amountReaded, 
-                                                    Result = selectedCryptoCurrency.Description + " " + cryptoEquivalent
+                                                    Description = selectedFiatCurrency.Description + " " + this.fiatAmount, 
+                                                    Result = selectedCryptoCurrency.Description + " " + this.cryptoAmount
                                             });
 
             return true;
@@ -106,7 +99,6 @@ namespace CryptoCam.ViewModel
             {
                 try
                 {      
-                    Loading = true;
                     await this.LoadData();
                 }
                 catch (Exception ex)
@@ -119,10 +111,6 @@ namespace CryptoCam.ViewModel
                                 }
                         );
                 }
-                finally
-                {
-                    if(Loading)Loading= false;
-                }                
             }
 
         }

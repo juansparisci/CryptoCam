@@ -1,4 +1,6 @@
 ﻿
+using CryptoCam.CustomControls.ActivityIndicator;
+using CryptoCam.DependencyServices.OCR;
 using CryptoCam.Model;
 using CryptoCam.WebServices;
 using Helpers.NetStandard;
@@ -29,10 +31,29 @@ namespace CryptoCam.ViewModel
         private CryptoCurrency selectedCryptoCurrency;
         private ImageSource focusImgSource;
         private ImageSource capturedImgSource;
+        private bool loading;
+        private ContentPage loadingContentPage;
 
-        
         public ImageSource convertIconSource { get => ImageSource.FromResource("CryptoCam.Resources.convertButton.png"); }
 
+        public bool Loading
+        {
+            get => loading;
+            set
+            {
+                loading = value;
+                if (value)
+                {
+                    Application.Current.MainPage.Navigation.PushModalAsync(this.loadingContentPage, false);
+                }
+                else
+                {
+                    Application.Current.MainPage.Navigation.PopModalAsync(false);
+                }
+                OnPropertyChanged();
+
+            }
+        }
 
         public List<FiatCurrency> FiatCurrencies
         {
@@ -71,28 +92,47 @@ namespace CryptoCam.ViewModel
            
             ScanCommand =  new Command(async () => 
            {
-               
+               try
+               {
 
-               var scanTask = Task.Run(() => this.scan());
+                   var fourArcsActivityIndicator = new FourArcs();
+                   fourArcsActivityIndicator.AddDynamicLoadingText(new LoadingText(selectedFiatCurrency.Description + "->" + selectedCryptoCurrency.Description, new CenterTextPosition(), SKColors.OrangeRed, 48));
 
-
-               await scanTask;
-
-
-
-
+                   this.loadingContentPage = new ContentPage { Content = fourArcsActivityIndicator  };
+                   Loading = true;
 
 
-               await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(((Task<Stream>)scanTask).Result, SelectedFiatCurrency,SelectedCryptoCurrency));
-               
-          //     ImageFocusBackgroundColor = Color.Transparent;
+                   
+                   var scanTask = Task.Run(() => this.scan());
+
+                   var dynamicLoadingText = new LoadingText("Processing Image...", new BottomTextPosition(), SKColors.White, 40);
+                   fourArcsActivityIndicator.AddDynamicLoadingText(dynamicLoadingText);
+                  
+                   var imgByteArray = await scanTask;
+
+                   dynamicLoadingText.Text = "Doing Optical Character Recognition...";
+                   string amountReaded = await DependencyService.Get<IOCR>()?.GetTextFromImage(imgByteArray);
+
+                   dynamicLoadingText.Text = "Getting convertion...";
+                   string cryptoEquivalent = await DependencyService.Get<ICryptoConverter_API>()?.Convert(Convert.ToDecimal(amountReaded), selectedCryptoCurrency.Id, selectedFiatCurrency.Id);
+
+
+
+                   Loading = false;
+                   await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(amountReaded, cryptoEquivalent, SelectedFiatCurrency, SelectedCryptoCurrency));
+               }
+               catch (Exception ex)
+               {
+                   Loading = false;
+                   await Application.Current.MainPage.Navigation.PushModalAsync(new ResultConvertionPage(ex.Message));
+               }
 
            }, () => {               
                return true; });
 
         }
          
-        private async Task<Stream> scan()
+        private async Task<byte[]> scan()
         {            
             
             var mainPage = ((MainPage)Application.Current.MainPage);
@@ -115,9 +155,16 @@ namespace CryptoCam.ViewModel
             //     imgCrpr.CroppedImageStream.CopyTo(ret);
             //}
             var imgCrpr = new ImageCropper(imgBytes, sourceRect, destRect, Helpers.NetStandard.ImageCropper.Orientation.Portrait);
-           // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
+            // FocusImgSource = ImageSource.FromStream(()=>imgCrpr.CroppedImageStream);
 
-            return imgCrpr.CroppedImageStream;
+
+            byte[] imgByteArray;
+            using (var memoryStream = new MemoryStream())
+            {
+                imgCrpr.CroppedImageStream.CopyTo(memoryStream);
+                imgByteArray = memoryStream.ToArray();
+            }
+            return imgByteArray;
 
 
             //await Application.Current.MainPage.Navigation.PushAsync(new ResultConversionPage());

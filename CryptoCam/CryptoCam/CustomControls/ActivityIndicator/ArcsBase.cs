@@ -13,33 +13,58 @@ namespace CryptoCam.CustomControls.ActivityIndicator
         internal LoadingText loadingText { get; set; }
         internal SKCanvasView canvas { get; set; }
         internal Stopwatch stopwatch { get; set; }
-        internal float OvalStartAngle { get; set; }
-        internal float SecondOvalStartAngle { get; set; }
-        internal float OvalSweepAngle { get; set; } 
-        internal float InnerOvalStartAngle { get; set; }
-        internal float InnerSecondOvalStartAngle { get; set; }
-        internal float InnerOvalSweepAngle { get; set; }
+        internal float ovalStartAngle { get; set; }
+        internal float secondOvalStartAngle { get; set; }
+        internal float ovalSweepAngle { get; set; } 
+        internal float innerOvalStartAngle { get; set; }
+        internal float innerSecondOvalStartAngle { get; set; }
+        internal float innerOvalSweepAngle { get; set; }
 
         internal SKPaint firstArcPaint { get; set; }
         internal SKPaint secondArcPaint { get; set; }
-        public ArcsBase(LoadingText loadingText = null)
+        private List<LoadingText> dynamicLoadingTexts { get; set; }
+        public ArcsBase()
         {
-            this.loadingText = loadingText;
+            dynamicLoadingTexts = new List<LoadingText>();
         }
 
         public virtual void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-            if(this.loadingText!=null&&!String.IsNullOrWhiteSpace(this.loadingText.Text))this.DrawLoadingText(args);
+            this.DrawLoadingText(args);
+            
+
+         
+
         }
 
         public abstract bool OnTimerClik();
         private void DrawLoadingText(SKPaintSurfaceEventArgs args)
         {
 
-                SKCanvas canvas = args.Surface.Canvas;                          
-                
-                canvas.DrawText(this.loadingText.Text,this.loadingText.LtPosition.GetPosition(args,loadingText.TextPaint,loadingText.Text) , loadingText.TextPaint);
+                SKCanvas canvas = args.Surface.Canvas;
+            this.dynamicLoadingTexts.ForEach(dlt => {
+                if (dlt != null && !String.IsNullOrWhiteSpace(dlt.Text))
+                    canvas.DrawText(dlt.Text, 
+                                    dlt.LtPosition.GetPosition(args, dlt.TextPaint, dlt.Text), 
+                                    dlt.TextPaint);
+            });
             
+                    
+
+
+            
+        }
+        public void AddDynamicLoadingText(LoadingText loadingText)
+        {
+            this.dynamicLoadingTexts.Add(loadingText);
+        }
+        public void DeleteDynamicLoadingText(LoadingText loadingText)
+        {
+            this.dynamicLoadingTexts.Remove(loadingText);
+        }
+        public void DeleteAllDynamicLoadingTexts()
+        {
+            this.dynamicLoadingTexts.Clear();
         }
     }
 }

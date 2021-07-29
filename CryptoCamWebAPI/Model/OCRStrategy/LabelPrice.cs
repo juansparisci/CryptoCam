@@ -44,7 +44,7 @@ namespace CryptoCamWebAPI.Model.OCRStrategy
 
             // If it is not possible to identify a price in the text, throw an exception
             if (string.IsNullOrWhiteSpace(price) || (!decimal.TryParse(price, out dPrice)) || dPrice == 0)
-                throw new OcrException("It was not possible to recognize the price. Please try again.");
+                throw new OcrException("It was not possible to recognize the amount in the image. Please try again.");
 
             
             return price;
